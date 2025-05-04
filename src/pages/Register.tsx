@@ -5,44 +5,31 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/ui/checkbox';
-import { useToast } from '@/hooks/use-toast';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Train } from 'lucide-react';
 import Footer from '@/components/layout/Footer';
+import { useAuth } from '@/context/AuthContext';
 
 const Register = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [phone, setPhone] = useState('');
+  const [role, setRole] = useState<'passenger' | 'vendor'>('passenger');
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-  const { toast } = useToast();
+  const { register } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
 
     try {
-      // This is a mock registration - in a real app, you would connect to an authentication service
-      console.log('Registration attempt with:', { name, email, password, phone });
+      await register(name, email, password, role);
       
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      // Mock successful registration
-      toast({
-        title: "Registration successful",
-        description: "Welcome to IRCTC Foodie! You can now login.",
-      });
-      
-      // Redirect to login page after successful registration
-      navigate('/login');
+      // Redirect based on role
+      navigate(role === 'passenger' ? '/passenger' : '/vendor');
     } catch (error) {
-      toast({
-        title: "Registration failed",
-        description: "Please check your details and try again.",
-        variant: "destructive"
-      });
       console.error('Registration error:', error);
     } finally {
       setIsLoading(false);
@@ -62,6 +49,24 @@ const Register = () => {
             <h1 className="text-2xl font-bold text-center mb-6">Create an account</h1>
             
             <form onSubmit={handleSubmit} className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="role">Register As</Label>
+                <RadioGroup 
+                  value={role} 
+                  onValueChange={(value) => setRole(value as 'passenger' | 'vendor')}
+                  className="flex space-x-4"
+                >
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="passenger" id="register-passenger" />
+                    <Label htmlFor="register-passenger">Passenger</Label>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="vendor" id="register-vendor" />
+                    <Label htmlFor="register-vendor">Restaurant/Vendor</Label>
+                  </div>
+                </RadioGroup>
+              </div>
+
               <div className="space-y-2">
                 <Label htmlFor="name">Full Name</Label>
                 <Input 

@@ -5,42 +5,29 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/ui/checkbox';
-import { useToast } from '@/hooks/use-toast';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Train } from 'lucide-react';
 import Footer from '@/components/layout/Footer';
+import { useAuth } from '@/context/AuthContext';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [role, setRole] = useState<'passenger' | 'vendor'>('passenger');
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-  const { toast } = useToast();
+  const { login } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
 
     try {
-      // This is a mock login - in a real app, you would connect to an authentication service
-      console.log('Login attempt with:', { email, password });
+      await login(email, password, role);
       
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      // Mock successful login
-      toast({
-        title: "Login successful",
-        description: "Welcome back to IRCTC Foodie!",
-      });
-      
-      // Redirect to home page after successful login
-      navigate('/');
+      // Redirect based on role
+      navigate(role === 'passenger' ? '/passenger' : '/vendor');
     } catch (error) {
-      toast({
-        title: "Login failed",
-        description: "Please check your credentials and try again.",
-        variant: "destructive"
-      });
       console.error('Login error:', error);
     } finally {
       setIsLoading(false);
@@ -87,6 +74,24 @@ const Login = () => {
                   onChange={(e) => setPassword(e.target.value)}
                   required
                 />
+              </div>
+              
+              <div className="space-y-2">
+                <Label>Login As</Label>
+                <RadioGroup 
+                  value={role} 
+                  onValueChange={(value) => setRole(value as 'passenger' | 'vendor')}
+                  className="flex space-x-4"
+                >
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="passenger" id="passenger" />
+                    <Label htmlFor="passenger">Passenger</Label>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem value="vendor" id="vendor" />
+                    <Label htmlFor="vendor">Restaurant/Vendor</Label>
+                  </div>
+                </RadioGroup>
               </div>
               
               <div className="flex items-center space-x-2">
