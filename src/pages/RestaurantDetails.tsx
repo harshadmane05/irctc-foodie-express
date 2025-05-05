@@ -1,6 +1,5 @@
-
 import React, { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import { Button } from '@/components/ui/button';
@@ -122,6 +121,7 @@ const RestaurantDetails = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>(categories[0]);
   const [cart, setCart] = useState<CartItem[]>([]);
   const { toast } = useToast();
+  const navigate = useNavigate();
   
   const addToCart = (item: MenuItem) => {
     setCart(prevCart => {
@@ -169,6 +169,20 @@ const RestaurantDetails = () => {
   
   const getTotalItems = () => {
     return cart.reduce((total, item) => total + item.quantity, 0);
+  };
+
+  const handleCheckout = () => {
+    if (cart.length === 0) {
+      toast({
+        title: "Empty cart",
+        description: "Please add items to your cart before proceeding",
+        variant: "destructive"
+      });
+      return;
+    }
+    
+    // Navigate to cart page
+    navigate('/cart');
   };
 
   const filteredItems = menuItems.filter(item => item.category === selectedCategory);
@@ -418,7 +432,11 @@ const RestaurantDetails = () => {
                         <span>₹{getTotalAmount() + 50}</span>
                       </div>
                       
-                      <Button className="w-full mt-6 bg-irctc-orange hover:bg-irctc-orange/90 py-6" size="lg">
+                      <Button 
+                        className="w-full mt-6 bg-irctc-orange hover:bg-irctc-orange/90 py-6" 
+                        size="lg"
+                        onClick={handleCheckout}
+                      >
                         Proceed to Checkout
                       </Button>
                     </div>
