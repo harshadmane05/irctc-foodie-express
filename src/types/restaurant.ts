@@ -8,6 +8,9 @@ export interface MenuItem {
   veg: boolean;
   popular?: boolean;
   category: string;
+  spicyLevel?: "mild" | "medium" | "hot";
+  allergens?: string[];
+  preparationTime?: string;
 }
 
 export interface CartItem extends MenuItem {
@@ -27,4 +30,8 @@ export interface Restaurant {
   veg: boolean;
   address: string;
   description: string;
+  priceRange?: string;
+  contactNumber?: string;
+  openingHours?: string;
+  featuredDishes?: string[];
 }

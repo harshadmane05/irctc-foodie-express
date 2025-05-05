@@ -8,8 +8,9 @@ import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Star, Search, Filter, XIcon } from 'lucide-react';
+import { Star, Search, Filter, XIcon, MapPin, Clock } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { allRestaurants } from '@/data/restaurantData';
 
 interface Restaurant {
   id: string;
@@ -22,86 +23,6 @@ interface Restaurant {
   veg: boolean;
 }
 
-// Sample data
-const allRestaurants: Restaurant[] = [
-  {
-    id: 'rest-1',
-    name: 'Punjab Express',
-    image: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&auto=format&fit=crop',
-    cuisine: 'North Indian, Punjabi',
-    rating: 4.5,
-    deliveryTime: '30-35 min',
-    discount: '20% OFF',
-    veg: true
-  },
-  {
-    id: 'rest-2',
-    name: 'Dosa Corner',
-    image: 'https://images.unsplash.com/photo-1604152135912-04a022e23696?w=800&auto=format&fit=crop',
-    cuisine: 'South Indian',
-    rating: 4.3,
-    deliveryTime: '25-30 min',
-    veg: true
-  },
-  {
-    id: 'rest-3',
-    name: 'Delhi Darbar',
-    image: 'https://images.unsplash.com/photo-1514933651103-005eec06c04b?w=800&auto=format&fit=crop',
-    cuisine: 'Mughlai, Biryani',
-    rating: 4.1,
-    deliveryTime: '35-40 min',
-    discount: '10% OFF',
-    veg: false
-  },
-  {
-    id: 'rest-4',
-    name: 'Chai & Snacks',
-    image: 'https://images.unsplash.com/photo-1519676867240-f03562e64548?w=800&auto=format&fit=crop',
-    cuisine: 'Beverages, Snacks',
-    rating: 4.4,
-    deliveryTime: '15-20 min',
-    veg: true
-  },
-  {
-    id: 'rest-5',
-    name: 'Bombay Brasserie',
-    image: 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=800&auto=format&fit=crop',
-    cuisine: 'Maharashtrian, Street Food',
-    rating: 4.0,
-    deliveryTime: '30-40 min',
-    discount: '15% OFF',
-    veg: false
-  },
-  {
-    id: 'rest-6',
-    name: 'Hyderabadi Biryani House',
-    image: 'https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=800&auto=format&fit=crop',
-    cuisine: 'Biryani, Hyderabadi',
-    rating: 4.6,
-    deliveryTime: '40-45 min',
-    veg: false
-  },
-  {
-    id: 'rest-7',
-    name: 'The Veggie Delight',
-    image: 'https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=800&auto=format&fit=crop',
-    cuisine: 'Pure Vegetarian, Jain Options',
-    rating: 4.2,
-    deliveryTime: '25-35 min',
-    discount: '10% OFF',
-    veg: true
-  },
-  {
-    id: 'rest-8',
-    name: 'Train Meal Box',
-    image: 'https://images.unsplash.com/photo-1577106263724-2c8e03bfe9cf?w=800&auto=format&fit=crop',
-    cuisine: 'Meal Boxes, Multi-Cuisine',
-    rating: 3.9,
-    deliveryTime: '20-25 min',
-    veg: true
-  }
-];
-
 const cuisineTypes = [
   'All',
   'North Indian',
@@ -109,75 +30,144 @@ const cuisineTypes = [
   'Chinese',
   'Fast Food',
   'Biryani',
-  'Beverages'
+  'Beverages',
+  'Pizza',
+  'Healthy'
 ];
 
 const RestaurantList = () => {
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [restaurants, setRestaurants] = useState<Restaurant[]>(allRestaurants);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCuisine, setSelectedCuisine] = useState('All');
   const [filterVeg, setFilterVeg] = useState(false);
+  const [isSearching, setIsSearching] = useState(false);
   
   // Get search parameters
   const pnr = searchParams.get('pnr');
   const station = searchParams.get('station');
   const category = searchParams.get('category');
+  const initialQuery = searchParams.get('q');
   
   useEffect(() => {
+    // Initialize search term from URL if present
+    if (initialQuery) {
+      setSearchTerm(initialQuery);
+      handleSearchWithTerm(initialQuery);
+    }
+    
     // In a real app, we would fetch restaurants based on pnr/station/category
     console.log('Search params:', { pnr, station, category });
     
     // For now, just simulating filtering based on the category
     if (category) {
       const filtered = allRestaurants.filter(
-        (restaurant) => restaurant.cuisine.toLowerCase().includes(category.replace('-', ' '))
+        (restaurant) => restaurant.cuisine.toLowerCase().includes(category.toLowerCase().replace('-', ' '))
       );
       setRestaurants(filtered.length > 0 ? filtered : allRestaurants);
+      
+      // Set cuisine filter if it matches
+      const matchedCuisine = cuisineTypes.find(cuisine => 
+        cuisine.toLowerCase() === category.toLowerCase().replace('-', ' ')
+      );
+      if (matchedCuisine) {
+        setSelectedCuisine(matchedCuisine);
+      }
     } else {
       setRestaurants(allRestaurants);
     }
-  }, [pnr, station, category]);
+  }, [pnr, station, category, initialQuery]);
+  
+  const handleSearchWithTerm = (term: string) => {
+    setIsSearching(true);
+    
+    if (term) {
+      // Update URL search parameter
+      setSearchParams(params => {
+        params.set('q', term);
+        return params;
+      });
+      
+      const filtered = allRestaurants.filter(
+        (restaurant) => 
+          restaurant.name.toLowerCase().includes(term.toLowerCase()) ||
+          restaurant.cuisine.toLowerCase().includes(term.toLowerCase())
+      );
+      setRestaurants(filtered);
+    } else {
+      // Remove search query from URL
+      setSearchParams(params => {
+        params.delete('q');
+        return params;
+      });
+      
+      applyFilters();
+    }
+    
+    setTimeout(() => setIsSearching(false), 300);
+  };
   
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
+    handleSearchWithTerm(searchTerm);
+  };
+  
+  const applyFilters = () => {
+    let filtered = [...allRestaurants];
+    
+    // Apply cuisine filter
+    if (selectedCuisine !== 'All') {
+      filtered = filtered.filter(
+        (restaurant) => restaurant.cuisine.includes(selectedCuisine)
+      );
+    }
+    
+    // Apply veg filter
+    if (filterVeg) {
+      filtered = filtered.filter(restaurant => restaurant.veg);
+    }
+    
+    // Apply search term if present
     if (searchTerm) {
-      const filtered = allRestaurants.filter(
+      filtered = filtered.filter(
         (restaurant) => 
           restaurant.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
           restaurant.cuisine.toLowerCase().includes(searchTerm.toLowerCase())
       );
-      setRestaurants(filtered);
-    } else {
-      setRestaurants(allRestaurants);
     }
+    
+    setRestaurants(filtered);
   };
   
   const handleCuisineChange = (value: string) => {
     setSelectedCuisine(value);
-    if (value === 'All') {
-      setRestaurants(allRestaurants);
-    } else {
-      const filtered = allRestaurants.filter(
-        (restaurant) => restaurant.cuisine.includes(value)
-      );
-      setRestaurants(filtered);
-    }
+    
+    // Update URL
+    setSearchParams(params => {
+      if (value !== 'All') {
+        params.set('category', value.toLowerCase().replace(' ', '-'));
+      } else {
+        params.delete('category');
+      }
+      return params;
+    });
+    
+    setTimeout(() => applyFilters(), 0);
   };
   
   const handleVegFilter = () => {
     setFilterVeg(!filterVeg);
-    if (!filterVeg) {
-      setRestaurants(allRestaurants.filter(restaurant => restaurant.veg));
-    } else {
-      setRestaurants(allRestaurants);
-    }
+    setTimeout(() => applyFilters(), 0);
   };
   
   const resetFilters = () => {
     setSearchTerm('');
     setSelectedCuisine('All');
     setFilterVeg(false);
+    
+    // Clear URL parameters
+    setSearchParams({});
+    
     setRestaurants(allRestaurants);
   };
   
@@ -188,6 +178,8 @@ const RestaurantList = () => {
       return `Showing restaurants near ${station} station`;
     } else if (category) {
       return `Showing ${category.replace('-', ' ')} restaurants`;
+    } else if (searchTerm) {
+      return `Search results for "${searchTerm}"`;
     } else {
       return 'All Restaurants';
     }
@@ -201,7 +193,7 @@ const RestaurantList = () => {
           <div className="bg-white rounded-lg shadow-md p-6 mb-6">
             <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-4">
               <h1 className="text-2xl font-bold">{renderLocationInfo()}</h1>
-              <div className="mt-4 md:mt-0">
+              <div className="mt-4 md:mt-0 flex flex-wrap gap-2">
                 {(searchTerm || selectedCuisine !== 'All' || filterVeg) && (
                   <Button 
                     variant="outline" 
@@ -220,14 +212,22 @@ const RestaurantList = () => {
                 >
                   Veg Only
                 </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => {}}
+                  className="flex items-center"
+                >
+                  <Filter className="h-4 w-4 mr-1" /> More Filters
+                </Button>
               </div>
             </div>
             
             <form onSubmit={handleSearch} className="relative mb-6">
               <Input 
                 type="text" 
-                placeholder="Search for restaurants or cuisines..." 
-                className="pl-10 pr-4 py-2"
+                placeholder="Search for restaurants, cuisines, or dishes..." 
+                className="pl-10 pr-20 py-2"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
@@ -236,18 +236,18 @@ const RestaurantList = () => {
                 type="submit" 
                 className="absolute right-1 top-1 bg-irctc-orange hover:bg-irctc-orange/90"
               >
-                Search
+                {isSearching ? "Searching..." : "Search"}
               </Button>
             </form>
             
-            <Tabs defaultValue={selectedCuisine} onValueChange={handleCuisineChange}>
+            <Tabs defaultValue={selectedCuisine} onValueChange={handleCuisineChange} className="w-full">
               <div className="overflow-x-auto">
-                <TabsList className="mb-4 w-full">
+                <TabsList className="mb-4 w-full h-auto flex flex-nowrap">
                   {cuisineTypes.map((cuisine) => (
                     <TabsTrigger 
                       key={cuisine} 
                       value={cuisine}
-                      className="px-4 py-2"
+                      className="px-4 py-2 whitespace-nowrap"
                     >
                       {cuisine}
                     </TabsTrigger>
@@ -257,16 +257,16 @@ const RestaurantList = () => {
             </Tabs>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {restaurants.length > 0 ? (
-              restaurants.map((restaurant) => (
+          {restaurants.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              {restaurants.map((restaurant) => (
                 <Link key={restaurant.id} to={`/restaurant/${restaurant.id}`}>
-                  <Card className="overflow-hidden card-hover">
+                  <Card className="overflow-hidden card-hover h-full">
                     <div className="h-48 overflow-hidden relative">
                       <img 
                         src={restaurant.image} 
                         alt={restaurant.name} 
-                        className="w-full h-full object-cover"
+                        className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
                       />
                       {restaurant.discount && (
                         <div className="absolute top-3 left-3">
@@ -284,28 +284,40 @@ const RestaurantList = () => {
                     <CardContent className="p-4">
                       <h3 className="font-semibold text-lg">{restaurant.name}</h3>
                       <p className="text-gray-500 text-sm">{restaurant.cuisine}</p>
-                      <div className="flex justify-between items-center mt-2">
+                      
+                      <div className="flex justify-between items-center mt-3">
                         <div className="flex items-center">
                           <Badge className="bg-green-600 text-white flex items-center">
                             <Star className="w-3 h-3 mr-1" fill="white" />
                             {restaurant.rating}
                           </Badge>
                         </div>
-                        <div className="text-sm text-gray-500">
+                      </div>
+                      
+                      <div className="flex items-center justify-between mt-2 text-sm text-gray-500">
+                        <div className="flex items-center">
+                          <Clock className="w-3 h-3 mr-1" />
                           {restaurant.deliveryTime}
+                        </div>
+                        <div className="flex items-center">
+                          <MapPin className="w-3 h-3 mr-1" />
+                          Platform
                         </div>
                       </div>
                     </CardContent>
                   </Card>
                 </Link>
-              ))
-            ) : (
-              <div className="col-span-full text-center py-12">
-                <h3 className="text-xl font-semibold">No restaurants found</h3>
-                <p className="text-gray-500 mt-2">Try adjusting your search or filters</p>
-              </div>
-            )}
-          </div>
+              ))}
+            </div>
+          ) : (
+            <div className="bg-white rounded-lg shadow-md p-8 text-center">
+              <h3 className="text-xl font-semibold mb-2">No restaurants found</h3>
+              <p className="text-gray-500 mb-6">Try adjusting your search or filters</p>
+              <Button onClick={resetFilters} className="bg-irctc-orange hover:bg-irctc-orange/90">
+                Reset All Filters
+              </Button>
+            </div>
+          )}
         </div>
       </main>
       <Footer />

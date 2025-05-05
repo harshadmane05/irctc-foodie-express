@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Search, Menu, X, ShoppingCart, Train } from 'lucide-react';
@@ -8,6 +8,7 @@ import { Search, Menu, X, ShoppingCart, Train } from 'lucide-react';
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const navigate = useNavigate();
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -15,8 +16,13 @@ const Navbar = () => {
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Searching for:', searchQuery);
-    // TODO: Implement search functionality
+    if (searchQuery.trim()) {
+      // Navigate to restaurants page with search query
+      navigate(`/restaurants?q=${encodeURIComponent(searchQuery.trim())}`);
+      setSearchQuery('');
+      // Close mobile menu if open
+      if (isMenuOpen) setIsMenuOpen(false);
+    }
   };
 
   return (
