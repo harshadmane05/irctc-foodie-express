@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import Navbar from '@/components/layout/Navbar';
@@ -67,7 +66,7 @@ const RestaurantDetails = () => {
   const getTotalItems = () => {
     return cart.reduce((total, item) => total + item.quantity, 0);
   };
-
+  
   const handleCheckout = () => {
     if (cart.length === 0) {
       toast({

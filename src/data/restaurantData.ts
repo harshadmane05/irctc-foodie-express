@@ -11,30 +11,18 @@ export const restaurant: Restaurant = {
   ratingCount: 320,
   deliveryTime: '30-35 min',
   discount: '20% OFF',
-  veg: true,
+  veg: false,
   address: 'Shop No. 5, Platform 1, New Delhi Railway Station, New Delhi',
   description: 'Authentic Punjabi cuisine served fresh from our kitchen to your train seat. We specialize in North Indian delicacies prepared with the finest ingredients.',
   priceRange: '₹200 - ₹500',
   contactNumber: '+91 98765 43210',
   openingHours: '6:00 AM - 11:00 PM',
-  featuredDishes: ['Butter Chicken', 'Paneer Butter Masala', 'Butter Naan']
+  featuredDishes: ['Butter Chicken', 'Paneer Butter Masala', 'Butter Naan', 'Prawn Curry']
 };
 
 // Expanded menu items
 export const menuItems: MenuItem[] = [
-  // Main Course
-  {
-    id: 'item-1',
-    name: 'Butter Chicken',
-    description: 'Tender chicken cooked in a rich buttery tomato sauce with cream and spices',
-    price: 250,
-    image: 'https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?w=400&auto=format&fit=crop',
-    veg: false,
-    popular: true,
-    category: 'Main Course',
-    spicyLevel: 'medium',
-    preparationTime: '15-20 min'
-  },
+  // Main Course - Veg
   {
     id: 'item-2',
     name: 'Paneer Butter Masala',
@@ -59,18 +47,6 @@ export const menuItems: MenuItem[] = [
     preparationTime: '10-15 min'
   },
   {
-    id: 'item-4',
-    name: 'Chicken Biryani',
-    description: 'Fragrant basmati rice cooked with tender chicken pieces and aromatic spices',
-    price: 280,
-    image: 'https://images.unsplash.com/photo-1589302168068-964664d93dc0?w=400&auto=format&fit=crop',
-    veg: false,
-    popular: true,
-    category: 'Rice',
-    spicyLevel: 'medium',
-    preparationTime: '20-25 min'
-  },
-  {
     id: 'item-5',
     name: 'Malai Kofta',
     description: 'Deep-fried paneer and potato dumplings in a creamy sauce',
@@ -81,6 +57,100 @@ export const menuItems: MenuItem[] = [
     spicyLevel: 'mild',
     preparationTime: '15-20 min'
   },
+  
+  // Main Course - Non Veg
+  {
+    id: 'item-1',
+    name: 'Butter Chicken',
+    description: 'Tender chicken cooked in a rich buttery tomato sauce with cream and spices',
+    price: 250,
+    image: 'https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?w=400&auto=format&fit=crop',
+    veg: false,
+    popular: true,
+    category: 'Main Course',
+    spicyLevel: 'medium',
+    preparationTime: '15-20 min'
+  },
+  {
+    id: 'item-n1',
+    name: 'Chicken Curry',
+    description: 'Classic chicken curry cooked with aromatic spices and herbs',
+    price: 230,
+    image: 'https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=400&auto=format&fit=crop',
+    veg: false,
+    category: 'Main Course',
+    spicyLevel: 'medium',
+    preparationTime: '15-20 min'
+  },
+  {
+    id: 'item-n2',
+    name: 'Mutton Rogan Josh',
+    description: 'Aromatic lamb curry dish with a thick sauce flavored with garlic, ginger and aromatic spices',
+    price: 320,
+    image: 'https://images.unsplash.com/photo-1545247181-516773cae754?w=400&auto=format&fit=crop',
+    veg: false,
+    popular: true,
+    category: 'Main Course',
+    spicyLevel: 'hot',
+    preparationTime: '25-30 min',
+    allergens: ['Mutton']
+  },
+  
+  // Seafood
+  {
+    id: 'item-s1',
+    name: 'Prawn Curry',
+    description: 'Prawns cooked in a coconut milk-based curry with spices',
+    price: 350,
+    image: 'https://images.unsplash.com/photo-1510130387422-82bed34b37e9?w=400&auto=format&fit=crop',
+    veg: false,
+    category: 'Seafood',
+    spicyLevel: 'medium',
+    preparationTime: '15-20 min',
+    seafood: true,
+    allergens: ['Shellfish']
+  },
+  {
+    id: 'item-s2',
+    name: 'Fish Tikka',
+    description: 'Marinated fish chunks grilled in tandoor with spices',
+    price: 320,
+    image: 'https://images.unsplash.com/photo-1626521828783-508ba2626ba1?w=400&auto=format&fit=crop',
+    veg: false,
+    popular: true,
+    category: 'Seafood',
+    spicyLevel: 'mild',
+    preparationTime: '15-20 min',
+    seafood: true,
+    allergens: ['Fish']
+  },
+  {
+    id: 'item-s3',
+    name: 'Grilled Pomfret',
+    description: 'Whole pomfret fish marinated with spices and grilled to perfection',
+    price: 380,
+    image: 'https://images.unsplash.com/photo-1580476262798-bddd9f4b7369?w=400&auto=format&fit=crop',
+    veg: false,
+    category: 'Seafood',
+    spicyLevel: 'medium',
+    preparationTime: '20-25 min',
+    seafood: true,
+    allergens: ['Fish']
+  },
+  {
+    id: 'item-s4',
+    name: 'Crab Masala',
+    description: 'Crab cooked in spicy masala with aromatic spices',
+    price: 400,
+    image: 'https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=400&auto=format&fit=crop',
+    veg: false,
+    category: 'Seafood',
+    spicyLevel: 'hot',
+    preparationTime: '25-30 min',
+    seafood: true,
+    allergens: ['Shellfish']
+  },
+  
   // Breads
   {
     id: 'item-6',
@@ -110,6 +180,7 @@ export const menuItems: MenuItem[] = [
     category: 'Breads',
     preparationTime: '5-7 min'
   },
+  
   // Rice
   {
     id: 'item-9',
@@ -131,6 +202,32 @@ export const menuItems: MenuItem[] = [
     spicyLevel: 'medium',
     preparationTime: '18-20 min'
   },
+  {
+    id: 'item-4',
+    name: 'Chicken Biryani',
+    description: 'Fragrant basmati rice cooked with tender chicken pieces and aromatic spices',
+    price: 280,
+    image: 'https://images.unsplash.com/photo-1589302168068-964664d93dc0?w=400&auto=format&fit=crop',
+    veg: false,
+    popular: true,
+    category: 'Rice',
+    spicyLevel: 'medium',
+    preparationTime: '20-25 min'
+  },
+  {
+    id: 'item-r1',
+    name: 'Prawn Biryani',
+    description: 'Fragrant rice cooked with spiced prawns and aromatic spices',
+    price: 320,
+    image: 'https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=400&auto=format&fit=crop',
+    veg: false,
+    category: 'Rice',
+    spicyLevel: 'medium',
+    preparationTime: '20-25 min',
+    seafood: true,
+    allergens: ['Shellfish']
+  },
+  
   // Beverages
   {
     id: 'item-11',
@@ -171,6 +268,7 @@ export const menuItems: MenuItem[] = [
     category: 'Beverages',
     preparationTime: '3-5 min'
   },
+  
   // Desserts
   {
     id: 'item-15',
@@ -206,7 +304,7 @@ export const allRestaurants = [
     rating: 4.5,
     deliveryTime: '30-35 min',
     discount: '20% OFF',
-    veg: true
+    veg: false
   },
   {
     id: 'rest-n1',

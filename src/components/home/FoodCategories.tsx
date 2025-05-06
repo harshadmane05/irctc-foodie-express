@@ -42,6 +42,12 @@ const categories: FoodCategory[] = [
     count: 8
   },
   {
+    id: 'seafood',
+    name: 'Seafood',
+    image: 'https://images.unsplash.com/photo-1510130387422-82bed34b37e9?w=800&auto=format&fit=crop',
+    count: 14
+  },
+  {
     id: 'beverages',
     name: 'Beverages',
     image: 'https://images.unsplash.com/photo-1595981267035-7b04ca84a82d?w=800&auto=format&fit=crop',

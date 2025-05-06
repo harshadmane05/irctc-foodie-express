@@ -45,6 +45,9 @@ const MenuSection: React.FC<MenuSectionProps> = ({
                 className="px-4 py-2 whitespace-nowrap"
               >
                 {category}
+                {category === 'Seafood' && (
+                  <Badge className="ml-2 bg-blue-500">New</Badge>
+                )}
               </TabsTrigger>
             ))}
           </TabsList>

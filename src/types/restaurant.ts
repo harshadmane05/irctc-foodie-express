@@ -11,6 +11,7 @@ export interface MenuItem {
   spicyLevel?: "mild" | "medium" | "hot";
   allergens?: string[];
   preparationTime?: string;
+  seafood?: boolean;
 }
 
 export interface CartItem extends MenuItem {
