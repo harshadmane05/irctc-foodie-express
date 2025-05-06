@@ -38,6 +38,7 @@ const cuisineTypes = [
 const RestaurantList = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [restaurants, setRestaurants] = useState<Restaurant[]>(allRestaurants);
+  const [filteredRestaurants, setFilteredRestaurants] = useState<Restaurant[]>(allRestaurants);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCuisine, setSelectedCuisine] = useState('All');
   const [filterVeg, setFilterVeg] = useState(false);
@@ -65,6 +66,7 @@ const RestaurantList = () => {
         (restaurant) => restaurant.cuisine.toLowerCase().includes(category.toLowerCase().replace('-', ' '))
       );
       setRestaurants(filtered.length > 0 ? filtered : allRestaurants);
+      setFilteredRestaurants(filtered.length > 0 ? filtered : allRestaurants);
       
       // Set cuisine filter if it matches
       const matchedCuisine = cuisineTypes.find(cuisine => 
@@ -75,6 +77,7 @@ const RestaurantList = () => {
       }
     } else {
       setRestaurants(allRestaurants);
+      setFilteredRestaurants(allRestaurants);
     }
   }, [pnr, station, category, initialQuery]);
   
@@ -88,12 +91,8 @@ const RestaurantList = () => {
         return params;
       });
       
-      const filtered = allRestaurants.filter(
-        (restaurant) => 
-          restaurant.name.toLowerCase().includes(term.toLowerCase()) ||
-          restaurant.cuisine.toLowerCase().includes(term.toLowerCase())
-      );
-      setRestaurants(filtered);
+      // Apply search filter
+      applyFilters(term, selectedCuisine, filterVeg);
     } else {
       // Remove search query from URL
       setSearchParams(params => {
@@ -101,7 +100,8 @@ const RestaurantList = () => {
         return params;
       });
       
-      applyFilters();
+      // Reset to apply only cuisine and veg filters
+      applyFilters('', selectedCuisine, filterVeg);
     }
     
     setTimeout(() => setIsSearching(false), 300);
@@ -112,31 +112,31 @@ const RestaurantList = () => {
     handleSearchWithTerm(searchTerm);
   };
   
-  const applyFilters = () => {
+  const applyFilters = (term = searchTerm, cuisine = selectedCuisine, vegOnly = filterVeg) => {
     let filtered = [...allRestaurants];
     
     // Apply cuisine filter
-    if (selectedCuisine !== 'All') {
+    if (cuisine !== 'All') {
       filtered = filtered.filter(
-        (restaurant) => restaurant.cuisine.includes(selectedCuisine)
+        (restaurant) => restaurant.cuisine.includes(cuisine)
       );
     }
     
     // Apply veg filter
-    if (filterVeg) {
+    if (vegOnly) {
       filtered = filtered.filter(restaurant => restaurant.veg);
     }
     
     // Apply search term if present
-    if (searchTerm) {
+    if (term) {
       filtered = filtered.filter(
         (restaurant) => 
-          restaurant.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          restaurant.cuisine.toLowerCase().includes(searchTerm.toLowerCase())
+          restaurant.name.toLowerCase().includes(term.toLowerCase()) ||
+          restaurant.cuisine.toLowerCase().includes(term.toLowerCase())
       );
     }
     
-    setRestaurants(filtered);
+    setFilteredRestaurants(filtered);
   };
   
   const handleCuisineChange = (value: string) => {
@@ -152,12 +152,14 @@ const RestaurantList = () => {
       return params;
     });
     
-    setTimeout(() => applyFilters(), 0);
+    // Apply filters with new cuisine
+    applyFilters(searchTerm, value, filterVeg);
   };
   
   const handleVegFilter = () => {
-    setFilterVeg(!filterVeg);
-    setTimeout(() => applyFilters(), 0);
+    const newVegValue = !filterVeg;
+    setFilterVeg(newVegValue);
+    applyFilters(searchTerm, selectedCuisine, newVegValue);
   };
   
   const resetFilters = () => {
@@ -168,7 +170,7 @@ const RestaurantList = () => {
     // Clear URL parameters
     setSearchParams({});
     
-    setRestaurants(allRestaurants);
+    setFilteredRestaurants(allRestaurants);
   };
   
   const renderLocationInfo = () => {
@@ -257,9 +259,9 @@ const RestaurantList = () => {
             </Tabs>
           </div>
           
-          {restaurants.length > 0 ? (
+          {filteredRestaurants.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              {restaurants.map((restaurant) => (
+              {filteredRestaurants.map((restaurant) => (
                 <Link key={restaurant.id} to={`/restaurant/${restaurant.id}`}>
                   <Card className="overflow-hidden card-hover h-full">
                     <div className="h-48 overflow-hidden relative">

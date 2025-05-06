@@ -15,37 +15,49 @@ const categories: FoodCategory[] = [
     id: 'north-indian',
     name: 'North Indian',
     image: 'https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=800&auto=format&fit=crop',
-    count: 120
+    count: 15
   },
   {
     id: 'south-indian',
     name: 'South Indian',
     image: 'https://images.unsplash.com/photo-1630383249896-52bdbd3372cb?w=800&auto=format&fit=crop',
-    count: 85
+    count: 12
   },
   {
     id: 'chinese',
     name: 'Chinese',
     image: 'https://images.unsplash.com/photo-1563245372-f21724e3856d?w=800&auto=format&fit=crop',
-    count: 65
+    count: 10
   },
   {
     id: 'fast-food',
     name: 'Fast Food',
     image: 'https://images.unsplash.com/photo-1550547660-d9450f859349?w=800&auto=format&fit=crop',
-    count: 110
+    count: 18
+  },
+  {
+    id: 'biryani',
+    name: 'Biryani',
+    image: 'https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=800&auto=format&fit=crop',
+    count: 8
   },
   {
     id: 'beverages',
     name: 'Beverages',
     image: 'https://images.unsplash.com/photo-1595981267035-7b04ca84a82d?w=800&auto=format&fit=crop',
-    count: 45
+    count: 14
   },
   {
-    id: 'desserts',
-    name: 'Desserts',
-    image: 'https://images.unsplash.com/photo-1551024601-bec78aea704b?w=800&auto=format&fit=crop',
-    count: 60
+    id: 'pizza',
+    name: 'Pizza',
+    image: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?w=800&auto=format&fit=crop',
+    count: 9
+  },
+  {
+    id: 'healthy',
+    name: 'Healthy',
+    image: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=800&auto=format&fit=crop',
+    count: 11
   }
 ];
 
@@ -60,7 +72,7 @@ const FoodCategories = () => {
           </p>
         </div>
         
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-6">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
           {categories.map((category) => (
             <Link key={category.id} to={`/restaurants?category=${category.id}`}>
               <Card className="overflow-hidden card-hover">
@@ -68,7 +80,7 @@ const FoodCategories = () => {
                   <img 
                     src={category.image} 
                     alt={category.name} 
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
                   />
                 </div>
                 <CardContent className="p-4 text-center">

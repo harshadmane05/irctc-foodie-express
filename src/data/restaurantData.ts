@@ -1,4 +1,3 @@
-
 import { Restaurant, MenuItem } from '@/types/restaurant';
 
 // Sample restaurant data
@@ -198,6 +197,7 @@ export const menuItems: MenuItem[] = [
 
 // List of restaurants for the restaurant listing page
 export const allRestaurants = [
+  // North Indian Restaurants
   {
     id: 'rest-1',
     name: 'Punjab Express',
@@ -209,6 +209,46 @@ export const allRestaurants = [
     veg: true
   },
   {
+    id: 'rest-n1',
+    name: 'Punjabi Tadka',
+    image: 'https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=800&auto=format&fit=crop',
+    cuisine: 'North Indian',
+    rating: 4.3,
+    deliveryTime: '25-35 min',
+    veg: false
+  },
+  {
+    id: 'rest-n2',
+    name: 'Delhi 6',
+    image: 'https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=800&auto=format&fit=crop',
+    cuisine: 'North Indian, Mughlai',
+    rating: 4.6,
+    deliveryTime: '35-40 min',
+    discount: '15% OFF',
+    veg: false
+  },
+  {
+    id: 'rest-n3',
+    name: 'Royal Punjabi',
+    image: 'https://images.unsplash.com/photo-1534939561126-855b8675edd7?w=800&auto=format&fit=crop',
+    cuisine: 'North Indian',
+    rating: 4.4,
+    deliveryTime: '20-30 min',
+    veg: true
+  },
+  {
+    id: 'rest-n4',
+    name: 'Dhaba Express',
+    image: 'https://images.unsplash.com/photo-1505253758473-96b7015fcd40?w=800&auto=format&fit=crop',
+    cuisine: 'North Indian, Punjabi',
+    rating: 4.2,
+    deliveryTime: '30-40 min',
+    discount: '10% OFF',
+    veg: false
+  },
+
+  // South Indian Restaurants
+  {
     id: 'rest-2',
     name: 'Dosa Corner',
     image: 'https://images.unsplash.com/photo-1604152135912-04a022e23696?w=800&auto=format&fit=crop',
@@ -217,6 +257,95 @@ export const allRestaurants = [
     deliveryTime: '25-30 min',
     veg: true
   },
+  {
+    id: 'rest-s1',
+    name: 'Madras Cafe',
+    image: 'https://images.unsplash.com/photo-1630383249896-52bdbd3372cb?w=800&auto=format&fit=crop',
+    cuisine: 'South Indian',
+    rating: 4.5,
+    deliveryTime: '20-30 min',
+    discount: '10% OFF',
+    veg: true
+  },
+  {
+    id: 'rest-s2',
+    name: 'Idli Express',
+    image: 'https://images.unsplash.com/photo-1589301760014-d929f3979dbc?w=800&auto=format&fit=crop',
+    cuisine: 'South Indian',
+    rating: 4.1,
+    deliveryTime: '15-25 min',
+    veg: true
+  },
+  {
+    id: 'rest-s3',
+    name: 'Chennai Special',
+    image: 'https://images.unsplash.com/photo-1610192244261-3f33de3f72e1?w=800&auto=format&fit=crop',
+    cuisine: 'South Indian, Tamil',
+    rating: 4.4,
+    deliveryTime: '30-40 min',
+    veg: true
+  },
+  {
+    id: 'rest-s4',
+    name: 'Bangalore Bites',
+    image: 'https://images.unsplash.com/photo-1605392681320-5a88e31461b5?w=800&auto=format&fit=crop',
+    cuisine: 'South Indian, Karnataka',
+    rating: 4.2,
+    deliveryTime: '25-35 min',
+    discount: '15% OFF',
+    veg: true
+  },
+
+  // Chinese Restaurants
+  {
+    id: 'rest-9',
+    name: 'Chinese Wok',
+    image: 'https://images.unsplash.com/photo-1563245372-f21724e3856d?w=800&auto=format&fit=crop',
+    cuisine: 'Chinese, Asian',
+    rating: 4.4,
+    deliveryTime: '35-45 min',
+    discount: '15% OFF',
+    veg: false
+  },
+  {
+    id: 'rest-c1',
+    name: 'Dragon House',
+    image: 'https://images.unsplash.com/photo-1585032226651-759b368d7246?w=800&auto=format&fit=crop',
+    cuisine: 'Chinese',
+    rating: 4.3,
+    deliveryTime: '30-40 min',
+    veg: false
+  },
+  {
+    id: 'rest-c2',
+    name: 'Wok & Roll',
+    image: 'https://images.unsplash.com/photo-1569058242253-92a9c755a0ec?w=800&auto=format&fit=crop',
+    cuisine: 'Chinese, Pan Asian',
+    rating: 4.5,
+    deliveryTime: '30-35 min',
+    discount: '20% OFF',
+    veg: false
+  },
+  {
+    id: 'rest-c3',
+    name: 'Asian Fusion',
+    image: 'https://images.unsplash.com/photo-1491961865842-98fb4469a9b6?w=800&auto=format&fit=crop',
+    cuisine: 'Chinese, Thai',
+    rating: 4.2,
+    deliveryTime: '35-45 min',
+    veg: false
+  },
+  {
+    id: 'rest-c4',
+    name: 'Noodle Express',
+    image: 'https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=800&auto=format&fit=crop',
+    cuisine: 'Chinese',
+    rating: 4.0,
+    deliveryTime: '20-30 min',
+    veg: true
+  },
+
+  // Fast Food Restaurants
   {
     id: 'rest-3',
     name: 'Delhi Darbar',
@@ -228,6 +357,93 @@ export const allRestaurants = [
     veg: false
   },
   {
+    id: 'rest-f1',
+    name: 'Burger Junction',
+    image: 'https://images.unsplash.com/photo-1550547660-d9450f859349?w=800&auto=format&fit=crop',
+    cuisine: 'Fast Food, Burgers',
+    rating: 4.3,
+    deliveryTime: '15-25 min',
+    veg: false
+  },
+  {
+    id: 'rest-f2',
+    name: 'Wrap & Roll',
+    image: 'https://images.unsplash.com/photo-1561758033-d89a9ad46330?w=800&auto=format&fit=crop',
+    cuisine: 'Fast Food, Wraps',
+    rating: 4.2,
+    deliveryTime: '20-30 min',
+    discount: '15% OFF',
+    veg: true
+  },
+  {
+    id: 'rest-f3',
+    name: 'Quick Bites',
+    image: 'https://images.unsplash.com/photo-1475090169767-40ed8d18f67d?w=800&auto=format&fit=crop',
+    cuisine: 'Fast Food, Snacks',
+    rating: 4.0,
+    deliveryTime: '15-20 min',
+    veg: true
+  },
+  {
+    id: 'rest-f4',
+    name: 'Sandwich Express',
+    image: 'https://images.unsplash.com/photo-1509722747041-616f39b57569?w=800&auto=format&fit=crop',
+    cuisine: 'Fast Food, Sandwiches',
+    rating: 4.1,
+    deliveryTime: '15-25 min',
+    veg: true
+  },
+
+  // Biryani Restaurants
+  {
+    id: 'rest-6',
+    name: 'Hyderabadi Biryani House',
+    image: 'https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=800&auto=format&fit=crop',
+    cuisine: 'Biryani, Hyderabadi',
+    rating: 4.6,
+    deliveryTime: '40-45 min',
+    veg: false
+  },
+  {
+    id: 'rest-b1',
+    name: 'Biryani Box',
+    image: 'https://images.unsplash.com/photo-1589302168068-964664d93dc0?w=800&auto=format&fit=crop',
+    cuisine: 'Biryani',
+    rating: 4.4,
+    deliveryTime: '35-45 min',
+    veg: false
+  },
+  {
+    id: 'rest-b2',
+    name: 'Royal Biryani',
+    image: 'https://images.unsplash.com/photo-1642821373181-696a54913e93?w=800&auto=format&fit=crop',
+    cuisine: 'Biryani, Mughlai',
+    rating: 4.7,
+    deliveryTime: '40-50 min',
+    discount: '10% OFF',
+    veg: false
+  },
+  {
+    id: 'rest-b3',
+    name: 'Veg Biryani Hub',
+    image: 'https://images.unsplash.com/photo-1633945499177-15aac89680d8?w=800&auto=format&fit=crop',
+    cuisine: 'Biryani, Veg',
+    rating: 4.2,
+    deliveryTime: '30-40 min',
+    veg: true
+  },
+  {
+    id: 'rest-b4',
+    name: 'Lucknowi Biryani',
+    image: 'https://images.unsplash.com/photo-1588166524941-3bf61a9c41db?w=800&auto=format&fit=crop',
+    cuisine: 'Biryani, Awadhi',
+    rating: 4.5,
+    deliveryTime: '35-45 min',
+    veg: false
+  },
+
+  // Beverages
+  {
     id: 'rest-4',
     name: 'Chai & Snacks',
     image: 'https://images.unsplash.com/photo-1519676867240-f03562e64548?w=800&auto=format&fit=crop',
@@ -237,6 +453,143 @@ export const allRestaurants = [
     veg: true
   },
   {
+    id: 'rest-bv1',
+    name: 'Juice Junction',
+    image: 'https://images.unsplash.com/photo-1595981267035-7b04ca84a82d?w=800&auto=format&fit=crop',
+    cuisine: 'Beverages, Juices',
+    rating: 4.5,
+    deliveryTime: '10-15 min',
+    veg: true
+  },
+  {
+    id: 'rest-bv2',
+    name: 'Tea Treasure',
+    image: 'https://images.unsplash.com/photo-1544787219-7f47ccb76574?w=800&auto=format&fit=crop',
+    cuisine: 'Beverages, Tea',
+    rating: 4.3,
+    deliveryTime: '15-20 min',
+    discount: '10% OFF',
+    veg: true
+  },
+  {
+    id: 'rest-bv3',
+    name: 'Coffee Express',
+    image: 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=800&auto=format&fit=crop',
+    cuisine: 'Beverages, Coffee',
+    rating: 4.6,
+    deliveryTime: '10-15 min',
+    veg: true
+  },
+  {
+    id: 'rest-bv4',
+    name: 'Milkshake Mania',
+    image: 'https://images.unsplash.com/photo-1579954115563-e72bf1381629?w=800&auto=format&fit=crop',
+    cuisine: 'Beverages, Shakes',
+    rating: 4.4,
+    deliveryTime: '15-20 min',
+    veg: true
+  },
+
+  // Pizza
+  {
+    id: 'rest-10',
+    name: 'Pizza Express',
+    image: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?w=800&auto=format&fit=crop',
+    cuisine: 'Italian, Pizza',
+    rating: 4.2,
+    deliveryTime: '30-40 min',
+    veg: false
+  },
+  {
+    id: 'rest-p1',
+    name: 'Pizza Hub',
+    image: 'https://images.unsplash.com/photo-1571407970349-bc81e7e96d47?w=800&auto=format&fit=crop',
+    cuisine: 'Pizza',
+    rating: 4.3,
+    deliveryTime: '25-35 min',
+    discount: '20% OFF',
+    veg: false
+  },
+  {
+    id: 'rest-p2',
+    name: 'Cheese Lovers',
+    image: 'https://images.unsplash.com/photo-1594007654729-407eedc4fe0f?w=800&auto=format&fit=crop',
+    cuisine: 'Pizza, Italian',
+    rating: 4.5,
+    deliveryTime: '30-40 min',
+    veg: true
+  },
+  {
+    id: 'rest-p3',
+    name: 'Thin Crust Masters',
+    image: 'https://images.unsplash.com/photo-1588315029754-2dd089d39a1a?w=800&auto=format&fit=crop',
+    cuisine: 'Pizza, Italian',
+    rating: 4.4,
+    deliveryTime: '35-45 min',
+    veg: false
+  },
+  {
+    id: 'rest-p4',
+    name: 'Veggie Pizza Point',
+    image: 'https://images.unsplash.com/photo-1600628421055-4d30de868b8f?w=800&auto=format&fit=crop',
+    cuisine: 'Pizza, Veg',
+    rating: 4.1,
+    deliveryTime: '25-35 min',
+    discount: '15% OFF',
+    veg: true
+  },
+
+  // Healthy Food
+  {
+    id: 'rest-11',
+    name: 'Health Bowl',
+    image: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=800&auto=format&fit=crop',
+    cuisine: 'Salads, Healthy Food',
+    rating: 4.5,
+    deliveryTime: '25-30 min',
+    discount: '10% OFF',
+    veg: true
+  },
+  {
+    id: 'rest-h1',
+    name: 'Green Salad Bar',
+    image: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?w=800&auto=format&fit=crop',
+    cuisine: 'Healthy Food, Salads',
+    rating: 4.6,
+    deliveryTime: '20-30 min',
+    veg: true
+  },
+  {
+    id: 'rest-h2',
+    name: 'Fit Meals',
+    image: 'https://images.unsplash.com/photo-1607532941433-304659e8198a?w=800&auto=format&fit=crop',
+    cuisine: 'Healthy Food, Protein',
+    rating: 4.4,
+    deliveryTime: '30-40 min',
+    discount: '10% OFF',
+    veg: false
+  },
+  {
+    id: 'rest-h3',
+    name: 'Green Leaf',
+    image: 'https://images.unsplash.com/photo-1547496502-affa22d38842?w=800&auto=format&fit=crop',
+    cuisine: 'Healthy Food, Organic',
+    rating: 4.3,
+    deliveryTime: '25-35 min',
+    veg: true
+  },
+  {
+    id: 'rest-h4',
+    name: 'Protein Express',
+    image: 'https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=800&auto=format&fit=crop',
+    cuisine: 'Healthy Food, Protein',
+    rating: 4.5,
+    deliveryTime: '20-30 min',
+    veg: false
+  },
+
+  // Keep these miscellaneous options
+  {
     id: 'rest-5',
     name: 'Bombay Brasserie',
     image: 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=800&auto=format&fit=crop',
@@ -244,15 +597,6 @@ export const allRestaurants = [
     rating: 4.0,
     deliveryTime: '30-40 min',
     discount: '15% OFF',
-    veg: false
-  },
-  {
-    id: 'rest-6',
-    name: 'Hyderabadi Biryani House',
-    image: 'https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=800&auto=format&fit=crop',
-    cuisine: 'Biryani, Hyderabadi',
-    rating: 4.6,
-    deliveryTime: '40-45 min',
     veg: false
   },
   {
@@ -272,35 +616,6 @@ export const allRestaurants = [
     cuisine: 'Meal Boxes, Multi-Cuisine',
     rating: 3.9,
     deliveryTime: '20-25 min',
-    veg: true
-  },
-  {
-    id: 'rest-9',
-    name: 'Chinese Wok',
-    image: 'https://images.unsplash.com/photo-1563245372-f21724e3856d?w=800&auto=format&fit=crop',
-    cuisine: 'Chinese, Asian',
-    rating: 4.4,
-    deliveryTime: '35-45 min',
-    discount: '15% OFF',
-    veg: false
-  },
-  {
-    id: 'rest-10',
-    name: 'Pizza Express',
-    image: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?w=800&auto=format&fit=crop',
-    cuisine: 'Italian, Pizza',
-    rating: 4.2,
-    deliveryTime: '30-40 min',
-    veg: false
-  },
-  {
-    id: 'rest-11',
-    name: 'Health Bowl',
-    image: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=800&auto=format&fit=crop',
-    cuisine: 'Salads, Healthy Food',
-    rating: 4.5,
-    deliveryTime: '25-30 min',
-    discount: '10% OFF',
     veg: true
   },
   {
