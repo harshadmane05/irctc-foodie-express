@@ -1,7 +1,10 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import OrderStatusIcon from './OrderStatusIcon';
 import OrderStatusProgress from './OrderStatusProgress';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Clock } from 'lucide-react';
 
 interface OrderData {
   orderId: string;
@@ -21,6 +24,19 @@ interface OrderDetailsProps {
 }
 
 const OrderDetails: React.FC<OrderDetailsProps> = ({ orderData }) => {
+  const [isEditingTime, setIsEditingTime] = useState(false);
+  const [deliveryTime, setDeliveryTime] = useState(orderData.deliveryTime);
+
+  const handleTimeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setDeliveryTime(e.target.value);
+  };
+
+  const saveTimeChange = () => {
+    setIsEditingTime(false);
+    // In a real app, you would send this update to the backend
+    console.log("Delivery time updated to:", deliveryTime);
+  };
+
   return (
     <div className="bg-white rounded-lg shadow-md p-6">
       <div className="flex justify-between items-center mb-6">
@@ -51,7 +67,34 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ orderData }) => {
           <div className="bg-gray-50 p-4 rounded-md">
             <div className="grid grid-cols-2 gap-2 text-sm">
               <p className="text-gray-600">Estimated delivery:</p>
-              <p className="font-medium">{orderData.deliveryTime}</p>
+              {isEditingTime ? (
+                <div className="flex items-center">
+                  <Input 
+                    value={deliveryTime} 
+                    onChange={handleTimeChange} 
+                    className="h-8 py-1 text-sm" 
+                  />
+                  <Button 
+                    size="sm" 
+                    onClick={saveTimeChange} 
+                    className="ml-2 h-8 bg-irctc-orange"
+                  >
+                    Save
+                  </Button>
+                </div>
+              ) : (
+                <div className="flex items-center">
+                  <p className="font-medium">{deliveryTime}</p>
+                  <Button 
+                    size="sm" 
+                    variant="ghost" 
+                    onClick={() => setIsEditingTime(true)} 
+                    className="ml-2 h-6 p-0"
+                  >
+                    <Clock className="h-3 w-3" />
+                  </Button>
+                </div>
+              )}
               
               <p className="text-gray-600">Station:</p>
               <p className="font-medium">{orderData.station}</p>

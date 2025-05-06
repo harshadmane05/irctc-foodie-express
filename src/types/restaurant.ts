@@ -34,4 +34,8 @@ export interface Restaurant {
   contactNumber?: string;
   openingHours?: string;
   featuredDishes?: string[];
+  location?: {
+    lat: number;
+    lng: number;
+  };
 }

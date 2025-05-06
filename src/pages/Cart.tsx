@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Navbar from '@/components/layout/Navbar';
@@ -8,7 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useToast } from '@/hooks/use-toast';
-import { ShoppingCart, Trash, Plus, Minus, ArrowRight } from 'lucide-react';
+import { ShoppingCart, Trash, Plus, Minus, ArrowRight, Ticket } from 'lucide-react';
 
 interface CartItem {
   id: string;
@@ -19,6 +18,14 @@ interface CartItem {
   restaurantId: string;
   veg: boolean;
 }
+
+// Available promo codes with their discount values
+const availablePromoCodes = {
+  'WELCOME20': 0.2,   // 20% discount
+  'TRAIN10': 0.1,     // 10% discount
+  'IRCTC50': 0.5,     // 50% discount (for first-time users)
+  'FOODIE15': 0.15,   // 15% discount
+};
 
 const Cart = () => {
   const [cartItems, setCartItems] = useState<CartItem[]>([
@@ -52,6 +59,7 @@ const Cart = () => {
   ]);
   
   const [promoCode, setPromoCode] = useState('');
+  const [appliedCode, setAppliedCode] = useState('');
   const [discount, setDiscount] = useState(0);
   const [trainInfo, setTrainInfo] = useState({
     trainNumber: '',
@@ -125,27 +133,49 @@ const Cart = () => {
   };
   
   const applyPromoCode = () => {
-    if (promoCode.toUpperCase() === 'WELCOME20') {
+    const code = promoCode.toUpperCase();
+    
+    if (code in availablePromoCodes) {
+      const discountPercentage = availablePromoCodes[code as keyof typeof availablePromoCodes];
       const subtotal = getSubtotal();
-      setDiscount(subtotal * 0.2); // 20% discount
+      const discountAmount = subtotal * discountPercentage;
+      
+      setDiscount(discountAmount);
+      setAppliedCode(code);
+      
+      // Show success message
       toast({
         title: "Promo code applied",
-        description: "You got 20% off your order!",
+        description: `You got ${discountPercentage * 100}% off your order!`,
       });
     } else {
+      // Show error message
       toast({
         title: "Invalid promo code",
         description: "Please enter a valid promo code",
         variant: "destructive"
       });
       setDiscount(0);
+      setAppliedCode('');
     }
+  };
+  
+  const removePromoCode = () => {
+    setPromoCode('');
+    setAppliedCode('');
+    setDiscount(0);
+    
+    toast({
+      title: "Promo code removed",
+      description: "Your discount has been removed",
+    });
   };
   
   const getSubtotal = () => {
     return cartItems.reduce((total, item) => total + (item.price * item.quantity), 0);
   };
   
+  // Update getTotal to include the discount
   const getTotal = () => {
     const subtotal = getSubtotal();
     const deliveryFee = 40;
@@ -351,7 +381,10 @@ const Cart = () => {
                     
                     {discount > 0 && (
                       <div className="flex justify-between text-green-600">
-                        <span>Discount</span>
+                        <span className="flex items-center">
+                          <Ticket className="h-4 w-4 mr-1" />
+                          Discount ({appliedCode})
+                        </span>
                         <span>-₹{discount}</span>
                       </div>
                     )}
@@ -366,21 +399,39 @@ const Cart = () => {
                   
                   <div className="mb-6">
                     <label className="block text-sm font-medium text-gray-700 mb-2">Promo Code</label>
-                    <div className="flex">
-                      <Input 
-                        className="rounded-r-none"
-                        placeholder="Enter code" 
-                        value={promoCode}
-                        onChange={(e) => setPromoCode(e.target.value)}
-                      />
-                      <Button 
-                        className="rounded-l-none bg-irctc-blue hover:bg-irctc-blue/90"
-                        onClick={applyPromoCode}
-                      >
-                        Apply
-                      </Button>
-                    </div>
-                    <p className="text-xs text-gray-500 mt-1">Try code: WELCOME20</p>
+                    {appliedCode ? (
+                      <div className="flex items-center bg-green-50 border border-green-200 p-2 rounded-md">
+                        <Badge className="bg-green-600 mr-2 flex items-center">
+                          <Ticket className="h-3 w-3 mr-1" />
+                          {appliedCode}
+                        </Badge>
+                        <span className="text-sm text-green-700 flex-1">Applied successfully</span>
+                        <Button 
+                          variant="ghost" 
+                          size="sm" 
+                          className="text-red-500 hover:text-red-700 hover:bg-red-50 p-1 h-auto"
+                          onClick={removePromoCode}
+                        >
+                          Remove
+                        </Button>
+                      </div>
+                    ) : (
+                      <div className="flex">
+                        <Input 
+                          className="rounded-r-none"
+                          placeholder="Enter code" 
+                          value={promoCode}
+                          onChange={(e) => setPromoCode(e.target.value)}
+                        />
+                        <Button 
+                          className="rounded-l-none bg-irctc-blue hover:bg-irctc-blue/90"
+                          onClick={applyPromoCode}
+                        >
+                          Apply
+                        </Button>
+                      </div>
+                    )}
+                    <p className="text-xs text-gray-500 mt-1">Available codes: WELCOME20, TRAIN10, IRCTC50, FOODIE15</p>
                   </div>
                   
                   <Button 

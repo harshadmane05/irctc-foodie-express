@@ -4,10 +4,12 @@ import { useParams, useNavigate } from 'react-router-dom';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import { useToast } from '@/hooks/use-toast';
-import { CartItem, MenuItem } from '@/types/restaurant';
+import { CartItem, MenuItem, Restaurant } from '@/types/restaurant';
 import RestaurantHeader from '@/components/restaurant/RestaurantHeader';
 import MenuSection from '@/components/restaurant/MenuSection';
 import CartSection from '@/components/restaurant/CartSection';
+import { Button } from '@/components/ui/button';
+import { ArrowLeft } from 'lucide-react';
 import { restaurant, menuItems } from '@/data/restaurantData';
 
 const RestaurantDetails = () => {
@@ -79,11 +81,26 @@ const RestaurantDetails = () => {
     // Navigate to cart page
     navigate('/cart');
   };
+
+  const goBack = () => {
+    navigate(-1);
+  };
   
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
       <main className="flex-grow">
+        <div className="container mx-auto px-4 py-4">
+          <Button 
+            variant="ghost" 
+            onClick={goBack} 
+            className="mb-4 hover:bg-gray-100"
+          >
+            <ArrowLeft className="mr-2 h-4 w-4" />
+            Back to Restaurants
+          </Button>
+        </div>
+        
         <RestaurantHeader restaurant={restaurant} />
         
         {/* Menu Section */}

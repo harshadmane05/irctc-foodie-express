@@ -1,9 +1,9 @@
 
 import React from 'react';
 import { Badge } from '@/components/ui/badge';
-import { Star, Clock, MapPin, Info, Phone, Calendar, Award } from 'lucide-react';
+import { Star, Clock, Utensils } from 'lucide-react';
 import { Restaurant } from '@/types/restaurant';
-import { Button } from '@/components/ui/button';
+import RestaurantActions from './RestaurantActions';
 
 interface RestaurantHeaderProps {
   restaurant: Restaurant;
@@ -11,138 +11,93 @@ interface RestaurantHeaderProps {
 
 const RestaurantHeader: React.FC<RestaurantHeaderProps> = ({ restaurant }) => {
   return (
-    <>
-      {/* Cover Image */}
-      <div className="h-64 md:h-80 w-full relative">
+    <div className="w-full bg-white shadow-md mb-6">
+      <div className="h-48 md:h-64 w-full bg-gray-200 overflow-hidden">
         <img 
           src={restaurant.coverImage} 
-          alt={restaurant.name} 
+          alt={restaurant.name}
           className="w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-black opacity-40"></div>
-        
-        {/* Restaurant name overlay for mobile */}
-        <div className="absolute bottom-4 left-4 md:hidden text-white">
-          <h1 className="text-2xl font-bold drop-shadow-lg">{restaurant.name}</h1>
-          <p className="text-white/90 drop-shadow-md">{restaurant.cuisine}</p>
-        </div>
       </div>
       
-      {/* Restaurant Info */}
-      <div className="container mx-auto px-4 -mt-16 relative z-10">
-        <div className="bg-white rounded-lg shadow-lg p-6 mb-8">
-          <div className="flex flex-col md:flex-row">
-            <div className="w-full md:w-3/4">
-              <div className="flex items-start">
-                <img 
-                  src={restaurant.image} 
-                  alt={restaurant.name} 
-                  className="w-24 h-24 rounded-lg object-cover mr-4 shadow-md"
-                />
-                <div>
-                  <div className="flex items-center flex-wrap gap-2">
-                    <h1 className="text-2xl font-bold hidden md:block">{restaurant.name}</h1>
-                    <Badge className={restaurant.veg ? "bg-green-600 text-white" : "bg-red-600 text-white"}>
-                      {restaurant.veg ? "Pure Veg" : "Non-Veg"}
-                    </Badge>
-                  </div>
-                  <p className="text-gray-500 hidden md:block">{restaurant.cuisine}</p>
-                  <div className="flex items-center mt-1">
-                    <Badge className="bg-green-600 text-white flex items-center mr-2">
-                      <Star className="w-3 h-3 mr-1" fill="white" />
-                      {restaurant.rating}
-                    </Badge>
-                    <span className="text-sm text-gray-500">{restaurant.ratingCount} ratings</span>
-                  </div>
-                  
-                  {restaurant.priceRange && (
-                    <div className="text-sm text-gray-600 mt-1">
-                      <span className="font-medium">Price:</span> {restaurant.priceRange}
-                    </div>
-                  )}
-                </div>
-              </div>
-              
-              <div className="grid md:grid-cols-2 gap-3 mt-6">
-                <div className="flex items-center text-gray-600">
-                  <Clock className="h-4 w-4 mr-2 text-gray-500" />
-                  <span>Delivery: {restaurant.deliveryTime}</span>
-                </div>
-                {restaurant.openingHours && (
-                  <div className="flex items-center text-gray-600">
-                    <Calendar className="h-4 w-4 mr-2 text-gray-500" />
-                    <span>Hours: {restaurant.openingHours}</span>
-                  </div>
-                )}
-                <div className="flex items-center text-gray-600">
-                  <MapPin className="h-4 w-4 mr-2 text-gray-500" />
-                  <span>{restaurant.address}</span>
-                </div>
-                {restaurant.contactNumber && (
-                  <div className="flex items-center text-gray-600">
-                    <Phone className="h-4 w-4 mr-2 text-gray-500" />
-                    <span>{restaurant.contactNumber}</span>
-                  </div>
-                )}
-              </div>
-              
-              {restaurant.description && (
-                <div className="mt-5 p-4 bg-gray-50 rounded-md">
-                  <div className="flex items-start">
-                    <Info className="h-5 w-5 mr-2 text-gray-500 mt-0.5" />
-                    <p className="text-gray-600">{restaurant.description}</p>
-                  </div>
-                </div>
-              )}
-              
-              {restaurant.featuredDishes && restaurant.featuredDishes.length > 0 && (
-                <div className="mt-4">
-                  <div className="flex items-center text-gray-700">
-                    <Award className="h-4 w-4 mr-2 text-irctc-orange" />
-                    <span className="font-medium">Featured Dishes:</span>
-                    <div className="ml-2 flex flex-wrap gap-1">
-                      {restaurant.featuredDishes.map((dish, index) => (
-                        <Badge key={index} variant="outline" className="bg-orange-50 text-orange-700">
-                          {dish}
-                        </Badge>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              )}
+      <div className="container mx-auto px-4 py-6">
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between">
+          <div className="flex items-center">
+            <div className="w-20 h-20 bg-white rounded-full shadow-lg overflow-hidden mr-4 -mt-12 border-4 border-white">
+              <img 
+                src={restaurant.image} 
+                alt={restaurant.name}
+                className="w-full h-full object-cover"
+              />
             </div>
             
-            <div className="w-full md:w-1/4 mt-6 md:mt-0 space-y-4">
-              {restaurant.discount && (
-                <div className="bg-orange-50 border border-orange-200 rounded-lg p-4">
-                  <h3 className="text-lg font-semibold text-irctc-orange mb-2">Offers & Discounts</h3>
-                  <div className="flex items-center">
-                    <Badge className="bg-irctc-orange text-white px-3 py-1">
-                      {restaurant.discount}
-                    </Badge>
-                    <span className="ml-2 text-gray-700">on all orders</span>
-                  </div>
-                </div>
-              )}
+            <div>
+              <div className="flex items-center">
+                <h1 className="text-2xl font-bold">{restaurant.name}</h1>
+                <Badge className={`ml-2 ${restaurant.veg ? 'bg-green-600' : 'bg-red-600'}`}>
+                  {restaurant.veg ? 'Pure Veg' : 'Non-Veg'}
+                </Badge>
+                {restaurant.discount && (
+                  <Badge className="ml-2 bg-irctc-orange">{restaurant.discount} OFF</Badge>
+                )}
+              </div>
               
-              <div className="bg-gray-50 border border-gray-200 rounded-lg p-4">
-                <h3 className="text-lg font-medium text-gray-700 mb-2">Quick Actions</h3>
-                <div className="space-y-2">
-                  <Button variant="outline" className="w-full justify-start">
-                    <Phone className="mr-2 h-4 w-4" />
-                    Contact Restaurant
-                  </Button>
-                  <Button variant="outline" className="w-full justify-start">
-                    <MapPin className="mr-2 h-4 w-4" />
-                    Get Directions
-                  </Button>
+              <p className="text-gray-600 mt-1">{restaurant.cuisine}</p>
+              <p className="text-gray-500 text-sm mt-1">{restaurant.address}</p>
+              
+              <div className="flex items-center mt-2 space-x-4">
+                <div className="flex items-center">
+                  <Star className="h-4 w-4 text-yellow-500 mr-1" />
+                  <span className="font-medium">{restaurant.rating}</span>
+                  <span className="text-gray-500 text-sm ml-1">({restaurant.ratingCount}+)</span>
                 </div>
+                
+                <div className="flex items-center">
+                  <Clock className="h-4 w-4 text-gray-500 mr-1" />
+                  <span>{restaurant.deliveryTime}</span>
+                </div>
+                
+                {restaurant.priceRange && (
+                  <div className="flex items-center">
+                    <Utensils className="h-4 w-4 text-gray-500 mr-1" />
+                    <span>{restaurant.priceRange}</span>
+                  </div>
+                )}
               </div>
             </div>
           </div>
+          
+          <div className="mt-4 md:mt-0 w-full md:w-auto">
+            <RestaurantActions restaurant={restaurant} />
+          </div>
+        </div>
+        
+        <div className="mt-6">
+          <h2 className="text-lg font-semibold mb-2">About {restaurant.name}</h2>
+          <p className="text-gray-600">{restaurant.description}</p>
+          
+          {restaurant.openingHours && (
+            <div className="mt-2 text-sm">
+              <span className="font-medium">Opening Hours:</span>
+              <span className="ml-2 text-gray-600">{restaurant.openingHours}</span>
+            </div>
+          )}
+          
+          {restaurant.featuredDishes && restaurant.featuredDishes.length > 0 && (
+            <div className="mt-2">
+              <span className="text-sm font-medium">Featured Dishes:</span>
+              <div className="flex flex-wrap gap-2 mt-1">
+                {restaurant.featuredDishes.map((dish, index) => (
+                  <Badge key={index} variant="outline" className="bg-gray-50">
+                    {dish}
+                  </Badge>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
