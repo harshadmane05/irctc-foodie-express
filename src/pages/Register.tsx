@@ -27,7 +27,8 @@ const Register = () => {
     try {
       await register(name, email, password, role);
       
-      // Redirect based on role
+      // Redirect based on role - ensure we're correctly using the selected role
+      console.log(`Registration successful as ${role}, redirecting to /${role}`);
       navigate(role === 'passenger' ? '/passenger' : '/vendor');
     } catch (error) {
       console.error('Registration error:', error);

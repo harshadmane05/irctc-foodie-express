@@ -6,6 +6,7 @@ import Footer from '@/components/layout/Footer';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useToast } from '@/hooks/use-toast';
 import { ShoppingCart, Trash, Plus, Minus, ArrowRight } from 'lucide-react';
 
@@ -59,6 +60,29 @@ const Cart = () => {
     station: 'New Delhi',
     deliveryTime: '12:30 PM'
   });
+  
+  // Available stations for selection
+  const stations = [
+    { value: 'New Delhi', label: 'New Delhi Railway Station' },
+    { value: 'Mumbai Central', label: 'Mumbai Central' },
+    { value: 'Chennai Central', label: 'Chennai Central' },
+    { value: 'Howrah', label: 'Howrah Junction, Kolkata' },
+    { value: 'Ahmedabad', label: 'Ahmedabad Junction' },
+    { value: 'Bangalore', label: 'KSR Bangalore City Junction' },
+    { value: 'Jaipur', label: 'Jaipur Junction' },
+  ];
+  
+  // Delivery times based on selected station
+  const deliveryTimes = {
+    'New Delhi': '12:30 PM',
+    'Mumbai Central': '1:15 PM',
+    'Chennai Central': '1:45 PM',
+    'Howrah': '12:00 PM',
+    'Ahmedabad': '2:00 PM',
+    'Bangalore': '1:30 PM',
+    'Jaipur': '12:45 PM',
+  };
+  
   const [isProcessing, setIsProcessing] = useState(false);
   
   const navigate = useNavigate();
@@ -89,6 +113,14 @@ const Cart = () => {
     toast({
       title: "Item removed",
       description: "Item has been removed from your cart",
+    });
+  };
+  
+  const handleStationChange = (value: string) => {
+    setTrainInfo({
+      ...trainInfo,
+      station: value,
+      deliveryTime: deliveryTimes[value as keyof typeof deliveryTimes] || '12:30 PM'
     });
   };
   
@@ -274,9 +306,24 @@ const Cart = () => {
                     
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-1">Delivery Station</label>
-                      <div className="flex items-center bg-gray-100 px-3 py-2 rounded-md">
-                        <span>{trainInfo.station}</span>
-                        <Badge className="ml-2 bg-green-600">Delivery at {trainInfo.deliveryTime}</Badge>
+                      <Select
+                        value={trainInfo.station}
+                        onValueChange={handleStationChange}
+                      >
+                        <SelectTrigger className="w-full">
+                          <SelectValue placeholder="Select a station" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {stations.map((station) => (
+                            <SelectItem key={station.value} value={station.value}>
+                              {station.label}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      <div className="mt-2 flex items-center bg-gray-100 px-3 py-2 rounded-md">
+                        <span>Estimated delivery time:</span>
+                        <Badge className="ml-2 bg-green-600">{trainInfo.deliveryTime}</Badge>
                       </div>
                     </div>
                   </form>
