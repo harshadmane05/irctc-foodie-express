@@ -15,6 +15,8 @@ export interface MenuItem {
 
 export interface CartItem extends MenuItem {
   quantity: number;
+  restaurant?: string;
+  restaurantId?: string;
 }
 
 export interface Restaurant {
