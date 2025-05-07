@@ -87,6 +87,11 @@ const FoodCategories = () => {
                     src={category.image} 
                     alt={category.name} 
                     className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      target.onerror = null;
+                      target.src = 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800&auto=format&fit=crop';
+                    }}
                   />
                 </div>
                 <CardContent className="p-4 text-center">

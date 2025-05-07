@@ -3,7 +3,7 @@ import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Plus, Minus, Info, AlertTriangle } from 'lucide-react';
+import { Plus, Minus, Info, AlertTriangle, ImageIcon } from 'lucide-react';
 import { MenuItem as MenuItemType } from '@/types/restaurant';
 import {
   Tooltip,
@@ -44,6 +44,32 @@ const MenuItem: React.FC<MenuItemProps> = ({ item, quantity, onAdd, onRemove }) 
         </Tooltip>
       </TooltipProvider>
     );
+  };
+
+  // Get appropriate fallback image based on item name
+  const getFallbackImage = () => {
+    const nameLower = item.name.toLowerCase();
+    
+    if (nameLower.includes('cheese') || nameLower.includes('pizza')) {
+      return 'https://images.unsplash.com/photo-1513104890138-7c749659a591?w=800&auto=format&fit=crop';
+    } else if (nameLower.includes('biryani') || nameLower.includes('rice')) {
+      return 'https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=800&auto=format&fit=crop';
+    } else if (nameLower.includes('asian') || nameLower.includes('chinese')) {
+      return 'https://images.unsplash.com/photo-1563245372-f21724e3856d?w=800&auto=format&fit=crop';
+    } else if (nameLower.includes('south indian') || nameLower.includes('dosa') || nameLower.includes('idli')) {
+      return 'https://images.unsplash.com/photo-1630383249896-52bdbd3372cb?w=800&auto=format&fit=crop';
+    } else if (nameLower.includes('north indian') || nameLower.includes('curry')) {
+      return 'https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=800&auto=format&fit=crop';
+    } else if (nameLower.includes('chicken') || nameLower.includes('meat')) {
+      return 'https://images.unsplash.com/photo-1598103442097-8b74394b95c6?w=800&auto=format&fit=crop';
+    } else if (nameLower.includes('seafood') || nameLower.includes('fish')) {
+      return 'https://images.unsplash.com/photo-1510130387422-82bed34b37e9?w=800&auto=format&fit=crop';
+    } else if (nameLower.includes('drink') || nameLower.includes('beverage')) {
+      return 'https://images.unsplash.com/photo-1595981267035-7b04ca84a82d?w=800&auto=format&fit=crop';
+    }
+    
+    // Default food image as fallback
+    return 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800&auto=format&fit=crop';
   };
 
   return (
@@ -137,6 +163,21 @@ const MenuItem: React.FC<MenuItemProps> = ({ item, quantity, onAdd, onRemove }) 
             <div className="w-full md:w-1/3 h-32 md:h-auto relative">
               <img 
                 src={item.image} 
+                alt={item.name} 
+                className="w-full h-full object-cover"
+                onError={(e) => {
+                  const target = e.target as HTMLImageElement;
+                  target.onerror = null;
+                  target.src = getFallbackImage();
+                }}
+              />
+            </div>
+          )}
+          
+          {!item.image && (
+            <div className="w-full md:w-1/3 h-32 md:h-auto relative bg-gray-100 flex items-center justify-center">
+              <img 
+                src={getFallbackImage()} 
                 alt={item.name} 
                 className="w-full h-full object-cover"
                 onError={(e) => {

@@ -1,11 +1,10 @@
-
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { Home, Plus, Pencil, Trash2 } from 'lucide-react';
+import { Home, Plus, Pencil, Trash2, ImageIcon } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import { useToast } from '@/hooks/use-toast';
 import Footer from '@/components/layout/Footer';
@@ -28,14 +27,16 @@ const ManageMenu = () => {
       name: 'Butter Chicken',
       description: 'Tender chicken cooked in a creamy tomato sauce',
       price: 250,
-      category: 'Main Course'
+      category: 'Main Course',
+      image: 'https://images.unsplash.com/photo-1598103442097-8b74394b95c6?w=800&auto=format&fit=crop'
     },
     {
       id: '2',
       name: 'Paneer Tikka',
       description: 'Chunks of paneer marinated and grilled to perfection',
       price: 180,
-      category: 'Starters'
+      category: 'Starters',
+      image: 'https://images.unsplash.com/photo-1567188040759-fb8a254b3bd4?w=800&auto=format&fit=crop'
     }
   ]);
   
@@ -148,6 +149,20 @@ const ManageMenu = () => {
     });
   };
 
+  const getFallbackImage = (name: string) => {
+    const nameLower = name.toLowerCase();
+    
+    if (nameLower.includes('cheese') || nameLower.includes('pizza')) {
+      return 'https://images.unsplash.com/photo-1513104890138-7c749659a591?w=800&auto=format&fit=crop';
+    } else if (nameLower.includes('biryani') || nameLower.includes('rice')) {
+      return 'https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=800&auto=format&fit=crop';
+    } else if (nameLower.includes('chicken') || nameLower.includes('meat')) {
+      return 'https://images.unsplash.com/photo-1598103442097-8b74394b95c6?w=800&auto=format&fit=crop';
+    }
+    
+    return 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800&auto=format&fit=crop';
+  };
+
   return (
     <div className="min-h-screen flex flex-col">
       <header className="bg-white border-b border-gray-200">
@@ -248,14 +263,34 @@ const ManageMenu = () => {
                     {menuItems.map((item) => (
                       <div key={item.id} className="py-4">
                         <div className="flex justify-between items-start">
-                          <div>
-                            <h3 className="font-medium">{item.name}</h3>
-                            <p className="text-sm text-gray-500 mt-1">{item.description}</p>
-                            <div className="flex gap-3 mt-2 text-sm">
-                              <span className="text-gray-600">₹{item.price}</span>
-                              <span className="bg-gray-100 px-2 py-0.5 rounded text-xs">
-                                {item.category}
-                              </span>
+                          <div className="flex gap-4">
+                            <div className="w-16 h-16 rounded overflow-hidden bg-gray-100 flex-shrink-0">
+                              {item.image ? (
+                                <img 
+                                  src={item.image} 
+                                  alt={item.name} 
+                                  className="w-full h-full object-cover"
+                                  onError={(e) => {
+                                    const target = e.target as HTMLImageElement;
+                                    target.onerror = null;
+                                    target.src = getFallbackImage(item.name);
+                                  }}
+                                />
+                              ) : (
+                                <div className="w-full h-full flex items-center justify-center bg-gray-100">
+                                  <ImageIcon className="text-gray-400" />
+                                </div>
+                              )}
+                            </div>
+                            <div>
+                              <h3 className="font-medium">{item.name}</h3>
+                              <p className="text-sm text-gray-500 mt-1">{item.description}</p>
+                              <div className="flex gap-3 mt-2 text-sm">
+                                <span className="text-gray-600">₹{item.price}</span>
+                                <span className="bg-gray-100 px-2 py-0.5 rounded text-xs">
+                                  {item.category}
+                                </span>
+                              </div>
                             </div>
                           </div>
                           <div className="flex gap-2">
