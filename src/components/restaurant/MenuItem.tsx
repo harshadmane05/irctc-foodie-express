@@ -134,11 +134,16 @@ const MenuItem: React.FC<MenuItemProps> = ({ item, quantity, onAdd, onRemove }) 
           </div>
           
           {item.image && (
-            <div className="w-full md:w-1/3 h-32 md:h-auto">
+            <div className="w-full md:w-1/3 h-32 md:h-auto relative">
               <img 
                 src={item.image} 
                 alt={item.name} 
                 className="w-full h-full object-cover"
+                onError={(e) => {
+                  const target = e.target as HTMLImageElement;
+                  target.onerror = null;
+                  target.src = 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800&auto=format&fit=crop';
+                }}
               />
             </div>
           )}
