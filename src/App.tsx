@@ -41,7 +41,7 @@ const App = () => (
         <Sonner />
         <BrowserRouter>
           <Routes>
-            {/* Public Routes */}
+            {/* Public Routes - No authentication required */}
             <Route path="/" element={<Index />} />
             <Route path="/restaurants" element={<RestaurantList />} />
             <Route path="/restaurant/:id" element={<RestaurantDetails />} />
@@ -49,9 +49,15 @@ const App = () => (
             <Route path="/register" element={<Register />} />
             <Route path="/help" element={<Help />} />
             <Route path="/cart" element={<Cart />} />
-            <Route path="/order-success" element={<OrderSuccess />} />
             <Route path="/track-order" element={<TrackOrder />} />
             <Route path="/feedback" element={<FeedbackForm />} />
+
+            {/* Protected Routes - Authentication required at checkout */}
+            <Route path="/order-success" element={
+              <ProtectedRoute requireAuth={true}>
+                <OrderSuccess />
+              </ProtectedRoute>
+            } />
 
             {/* Passenger Dashboard Routes */}
             <Route path="/passenger" element={

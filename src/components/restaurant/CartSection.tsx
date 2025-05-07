@@ -2,8 +2,10 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { ShoppingCart, Plus, Minus } from 'lucide-react';
+import { ShoppingCart, Plus, Minus, LogIn } from 'lucide-react';
 import { CartItem } from '@/types/restaurant';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '@/context/AuthContext';
 
 interface CartSectionProps {
   cart: CartItem[];
@@ -22,6 +24,19 @@ const CartSection: React.FC<CartSectionProps> = ({
   removeFromCart,
   handleCheckout
 }) => {
+  const { isAuthenticated } = useAuth();
+  const navigate = useNavigate();
+  
+  const handleProceed = () => {
+    if (!isAuthenticated) {
+      // Save current location before redirecting to login
+      localStorage.setItem('redirectAfterLogin', window.location.pathname);
+      navigate('/login');
+    } else {
+      handleCheckout();
+    }
+  };
+
   return (
     <div className="w-full lg:w-1/3">
       <div className="bg-white rounded-lg shadow-md p-6 sticky top-20">
@@ -100,9 +115,16 @@ const CartSection: React.FC<CartSectionProps> = ({
               <Button 
                 className="w-full mt-6 bg-irctc-orange hover:bg-irctc-orange/90 py-6" 
                 size="lg"
-                onClick={handleCheckout}
+                onClick={handleProceed}
               >
-                Proceed to Checkout
+                {!isAuthenticated ? (
+                  <>
+                    <LogIn className="w-4 h-4 mr-2" />
+                    Login to Checkout
+                  </>
+                ) : (
+                  "Proceed to Checkout"
+                )}
               </Button>
             </div>
           </>

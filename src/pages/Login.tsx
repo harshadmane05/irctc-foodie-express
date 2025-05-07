@@ -1,5 +1,4 @@
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -25,15 +24,35 @@ const Login = () => {
     try {
       await login(email, password, role);
       
-      // Redirect based on role - ensure we're correctly using the selected role
-      console.log(`Login successful as ${role}, redirecting to /${role}`);
-      navigate(role === 'passenger' ? '/passenger' : '/vendor');
+      // Check if there's a stored redirect path
+      const redirectPath = localStorage.getItem('redirectAfterLogin');
+      if (redirectPath) {
+        localStorage.removeItem('redirectAfterLogin');
+        navigate(redirectPath);
+      } else {
+        // Default redirect based on role
+        navigate(role === 'passenger' ? '/passenger' : '/vendor');
+      }
     } catch (error) {
       console.error('Login error:', error);
     } finally {
       setIsLoading(false);
     }
   };
+
+  // Check if we're already authenticated, if so redirect to appropriate path
+  useEffect(() => {
+    const { isAuthenticated, role } = useAuth();
+    if (isAuthenticated) {
+      const redirectPath = localStorage.getItem('redirectAfterLogin');
+      if (redirectPath) {
+        localStorage.removeItem('redirectAfterLogin');
+        navigate(redirectPath);
+      } else {
+        navigate(role === 'passenger' ? '/passenger' : '/vendor');
+      }
+    }
+  }, []);
 
   return (
     <div className="min-h-screen flex flex-col">
