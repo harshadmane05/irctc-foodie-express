@@ -33,7 +33,7 @@
     --input: 214.3 31.8% 91.4%;
     --ring: 24 94% 53%;  /* IRCTC Orange */
 
-    --radius: 0.5rem;
+    --radius: 0.75rem;
   }
 
   * {
@@ -44,23 +44,28 @@
     @apply bg-background text-foreground;
     font-family: 'Roboto', sans-serif;
   }
+  
+  /* Smooth scrolling for the entire site */
+  html {
+    scroll-behavior: smooth;
+  }
 }
 
 @layer components {
   .btn-primary {
-    @apply bg-irctc-orange text-white px-6 py-2 rounded-md hover:bg-opacity-90 transition-all duration-200;
+    @apply bg-irctc-orange text-white px-6 py-2 rounded-md hover:bg-opacity-90 transition-all duration-200 transform hover:-translate-y-1 hover:shadow-lg;
   }
   
   .btn-secondary {
-    @apply bg-irctc-blue text-white px-6 py-2 rounded-md hover:bg-opacity-90 transition-all duration-200;
+    @apply bg-irctc-blue text-white px-6 py-2 rounded-md hover:bg-opacity-90 transition-all duration-200 transform hover:-translate-y-1 hover:shadow-lg;
   }
   
   .card-hover {
-    @apply transition-all duration-300 hover:shadow-lg hover:-translate-y-1;
+    @apply transition-all duration-300 hover:shadow-lg hover:-translate-y-2;
   }
   
   .section-padding {
-    @apply py-12 px-4 md:px-8 lg:px-16;
+    @apply py-16 px-4 md:px-8 lg:px-16;
   }
   
   .heading-xl {
@@ -73,5 +78,53 @@
   
   .heading-md {
     @apply text-xl md:text-2xl font-bold;
+  }
+  
+  /* Animation classes */
+  .animation-fill-mode-forwards {
+    animation-fill-mode: forwards;
+  }
+  
+  .animation-delay-100 {
+    animation-delay: 100ms;
+  }
+  
+  .animation-delay-200 {
+    animation-delay: 200ms;
+  }
+  
+  .animation-delay-300 {
+    animation-delay: 300ms;
+  }
+  
+  .animation-delay-400 {
+    animation-delay: 400ms;
+  }
+  
+  .animation-delay-500 {
+    animation-delay: 500ms;
+  }
+  
+  /* Glassmorphism */
+  .glass {
+    @apply bg-white/70 backdrop-blur-md border border-white/20 shadow-lg;
+  }
+  
+  /* Custom scrollbar */
+  .scrollbar-thin {
+    scrollbar-width: thin;
+  }
+  
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  
+  .scrollbar-thin::-webkit-scrollbar-track {
+    @apply bg-transparent rounded-full;
+  }
+  
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    @apply bg-gray-300 hover:bg-gray-400 rounded-full;
   }
 }
