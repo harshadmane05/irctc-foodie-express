@@ -1,5 +1,5 @@
 
-import React, { createContext, useContext } from 'react';
+import React, { createContext, useContext, ReactNode } from 'react';
 import { useAuthLogic, User } from '@/hooks/useAuthLogic';
 
 type UserRole = 'passenger' | 'vendor' | null;
@@ -11,19 +11,25 @@ interface AuthContextType {
   login: (email: string, password: string, role: UserRole) => Promise<void>;
   register: (name: string, email: string, password: string, role: UserRole) => Promise<void>;
   logout: () => void;
+  isLoading: boolean; // Added isLoading to the context type
 }
 
-const AuthContext = createContext<AuthContextType | null>(null);
+// Initialize with default values to avoid undefined errors
+const AuthContext = createContext<AuthContextType>({
+  user: null,
+  isAuthenticated: false,
+  role: null,
+  login: async () => {},
+  register: async () => {},
+  logout: () => {},
+  isLoading: true
+});
 
 export const useAuth = () => {
-  const context = useContext(AuthContext);
-  if (!context) {
-    throw new Error('useAuth must be used within an AuthProvider');
-  }
-  return context;
+  return useContext(AuthContext);
 };
 
-export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const auth = useAuthLogic();
   
   return (
@@ -33,7 +39,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       role: auth.role,
       login: auth.login,
       register: auth.register,
-      logout: auth.logout
+      logout: auth.logout,
+      isLoading: auth.isLoading
     }}>
       {!auth.isLoading && children}
     </AuthContext.Provider>

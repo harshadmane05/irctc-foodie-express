@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -15,14 +16,14 @@ const Login = () => {
   const [role, setRole] = useState<'passenger' | 'vendor'>('passenger');
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-  const { login } = useAuth();
+  const auth = useAuth();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
 
     try {
-      await login(email, password, role);
+      await auth.login(email, password, role);
       
       // Check if there's a stored redirect path
       const redirectPath = localStorage.getItem('redirectAfterLogin');
@@ -42,17 +43,16 @@ const Login = () => {
 
   // Check if we're already authenticated, if so redirect to appropriate path
   useEffect(() => {
-    const { isAuthenticated, role } = useAuth();
-    if (isAuthenticated) {
+    if (auth.isAuthenticated) {
       const redirectPath = localStorage.getItem('redirectAfterLogin');
       if (redirectPath) {
         localStorage.removeItem('redirectAfterLogin');
         navigate(redirectPath);
       } else {
-        navigate(role === 'passenger' ? '/passenger' : '/vendor');
+        navigate(auth.role === 'passenger' ? '/passenger' : '/vendor');
       }
     }
-  }, []);
+  }, [auth.isAuthenticated, auth.role, navigate]);
 
   return (
     <div className="min-h-screen flex flex-col">
