@@ -17,12 +17,12 @@ const PremiumBadge = ({ className, size = 'md' }: PremiumBadgeProps) => {
   
   return (
     <div className={cn(
-      'bg-gradient-gold text-irctc-charcoal rounded-full font-medium flex items-center gap-1 animate-fade-in',
+      'bg-gradient-to-r from-amber-300 to-amber-500 text-black rounded-full font-medium flex items-center gap-1 shadow-lg animate-pulse-slow',
       sizeClasses[size],
       className
     )}>
       <Shield className="h-3.5 w-3.5" />
-      <span>Premium</span>
+      <span className="font-semibold">Premium</span>
     </div>
   );
 };
