@@ -64,10 +64,14 @@ export default {
 					ring: 'hsl(var(--sidebar-ring))'
 				},
 				irctc: {
-					orange: '#F97316',
-					blue: '#0EA5E9',
-					purple: '#9b87f5',
-					red: '#ea384c'
+					orange: '#E16F25', // Enhanced orange
+					blue: '#034AA6',   // Royal blue
+					purple: '#7E1DCA', // Deep purple
+					red: '#B91C1C',    // Rich red
+					gold: '#D4AF37',   // Premium gold
+					silver: '#C0C0C0', // Sleek silver
+					charcoal: '#1A202C', // Dark charcoal
+					cream: '#F9F5EB'    // Soft cream
 				}
 			},
 			borderRadius: {
@@ -145,6 +149,14 @@ export default {
 					'100%': {
 						transform: 'rotate(360deg)'
 					}
+				},
+				'shimmer': {
+					'0%': {
+						backgroundPosition: '-500px 0'
+					},
+					'100%': {
+						backgroundPosition: '500px 0'
+					}
 				}
 			},
 			animation: {
@@ -155,7 +167,13 @@ export default {
 				'scale-in': 'scale-in 0.3s ease-out',
 				'pulse': 'pulse 2s infinite',
 				'float': 'float 3s ease-in-out infinite',
-				'spin-slow': 'spin-slow 3s linear infinite'
+				'spin-slow': 'spin-slow 3s linear infinite',
+				'shimmer': 'shimmer 2s infinite linear'
+			},
+			backgroundImage: {
+				'gradient-premium': 'linear-gradient(135deg, #B91C1C 0%, #E16F25 100%)',
+				'gradient-premium-light': 'linear-gradient(135deg, #F9F5EB 0%, #C0C0C0 100%)',
+				'gradient-gold': 'linear-gradient(135deg, #D4AF37 0%, #FFDF00 100%)',
 			}
 		}
 	},

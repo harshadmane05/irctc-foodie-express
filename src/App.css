@@ -1,29 +1,30 @@
 
-/* This file is kept minimal as we're using Tailwind CSS for styling */
-/* It only contains essential global styles that can't be handled by Tailwind */
+/* Premium Styling for IRCTC Foodie */
 
 body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  background-image: linear-gradient(to bottom, rgba(249, 245, 235, 0.5), rgba(255, 255, 255, 1));
+  background-attachment: fixed;
 }
 
-/* Custom scrollbar styling */
+/* Premium scrollbar styling */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  background: #f9f5eb;
   border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #ddd;
+  background: #d4af37;
   border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #ccc;
+  background: #b8960b;
 }
 
 /* Custom animation classes */
@@ -40,7 +41,54 @@ body {
   animation: float 3s ease-in-out infinite;
 }
 
-/* Fix for focus outline */
+/* Gold border effect */
+.gold-border {
+  position: relative;
+}
+
+.gold-border::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #D4AF37, transparent);
+}
+
+/* Focus styling */
 button:focus, a:focus, input:focus, select:focus, textarea:focus {
-  outline-color: #F97316 !important;
+  outline-color: #E16F25 !important;
+  box-shadow: 0 0 0 2px rgba(225, 111, 37, 0.2);
+}
+
+/* Premium card effect */
+.premium-effect {
+  transition: all 0.3s ease;
+  border: 1px solid rgba(212, 175, 55, 0.1);
+}
+
+.premium-effect:hover {
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  border-color: rgba(212, 175, 55, 0.3);
+  transform: translateY(-5px);
+}
+
+/* Text shadow for headings */
+.text-shadow {
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Premium checkmark */
+.premium-checkmark {
+  position: relative;
+  padding-left: 25px;
+}
+
+.premium-checkmark:before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: #E16F25;
+  font-weight: bold;
 }

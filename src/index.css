@@ -5,7 +5,7 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
+    --background: 45 33% 98%;
     --foreground: 222.2 84% 4.9%;
 
     --card: 0 0% 100%;
@@ -14,16 +14,16 @@
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
 
-    --primary: 24 94% 53%;  /* IRCTC Orange */
+    --primary: 25 95% 53%;  /* Premium Orange */
     --primary-foreground: 0 0% 98%;
 
-    --secondary: 199 95% 48%;  /* IRCTC Blue */
+    --secondary: 217 98% 33%;  /* Royal Blue */
     --secondary-foreground: 0 0% 98%;
 
     --muted: 210 40% 96.1%;
     --muted-foreground: 215.4 16.3% 46.9%;
 
-    --accent: 266 81% 74%;  /* IRCTC Purple */
+    --accent: 273 72% 45%;  /* Deep Purple */
     --accent-foreground: 0 0% 98%;
 
     --destructive: 0 84.2% 60.2%;
@@ -31,7 +31,7 @@
 
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
-    --ring: 24 94% 53%;  /* IRCTC Orange */
+    --ring: 25 95% 53%;  /* Premium Orange */
 
     --radius: 0.75rem;
   }
@@ -42,7 +42,7 @@
 
   body {
     @apply bg-background text-foreground;
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Poppins', sans-serif;
   }
   
   /* Smooth scrolling for the entire site */
@@ -80,6 +80,31 @@
     @apply text-xl md:text-2xl font-bold;
   }
   
+  /* Premium UI Components */
+  .premium-card {
+    @apply bg-white rounded-xl shadow-md border border-gray-100 hover:shadow-lg transition-all duration-300;
+  }
+  
+  .premium-input {
+    @apply rounded-lg border-gray-200 focus:border-irctc-orange focus:ring-irctc-orange/20 transition-all duration-200;
+  }
+  
+  .premium-badge {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+  }
+  
+  .premium-button {
+    @apply rounded-lg font-medium transition-all duration-200 flex items-center justify-center;
+  }
+  
+  .premium-gradient {
+    @apply bg-gradient-premium text-white;
+  }
+  
+  .premium-glass {
+    @apply bg-white/80 backdrop-blur-md border border-white/20 shadow-lg;
+  }
+  
   /* Animation classes */
   .animation-fill-mode-forwards {
     animation-fill-mode: forwards;
@@ -108,6 +133,11 @@
   /* Glassmorphism */
   .glass {
     @apply bg-white/70 backdrop-blur-md border border-white/20 shadow-lg;
+  }
+  
+  /* Shimmer effect */
+  .shimmer {
+    @apply relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/20 before:to-transparent before:animate-shimmer;
   }
   
   /* Custom scrollbar */

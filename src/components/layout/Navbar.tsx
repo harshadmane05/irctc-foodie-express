@@ -45,29 +45,35 @@ const Navbar = () => {
   };
 
   return (
-    <nav className={`sticky top-0 z-50 transition-all duration-300 ${scrolled ? 'bg-white/95 backdrop-blur-md shadow-md' : 'bg-white'}`}>
+    <nav className={`sticky top-0 z-50 transition-all duration-300 ${
+      scrolled 
+        ? 'bg-white/95 backdrop-blur-md shadow-md' 
+        : 'bg-white'
+      }`}>
       <div className="container mx-auto py-3 px-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
           <div className="flex items-center">
             <Link to="/" className="flex items-center group">
-              <Train size={28} className="text-irctc-orange mr-2 transition-transform duration-300 group-hover:rotate-12" />
+              <div className="bg-gradient-premium p-2 rounded-lg mr-3 group-hover:shadow-lg transition-all duration-300">
+                <Train size={28} className="text-white group-hover:rotate-12 transition-transform duration-300" />
+              </div>
               <span className="font-bold text-xl">IRCTC <span className="text-irctc-orange">Foodie</span></span>
             </Link>
           </div>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-1">
-            <Link to="/" className={`px-3 py-2 rounded-md transition-colors ${isActiveLink('/') ? 'text-irctc-orange font-medium' : 'text-gray-700 hover:text-irctc-orange hover:bg-orange-50'}`}>
+            <Link to="/" className={`px-3 py-2 rounded-md transition-colors ${isActiveLink('/') ? 'text-irctc-orange font-medium gold-border' : 'text-gray-700 hover:text-irctc-orange hover:bg-orange-50'}`}>
               Home
             </Link>
-            <Link to="/restaurants" className={`px-3 py-2 rounded-md transition-colors ${isActiveLink('/restaurants') ? 'text-irctc-orange font-medium' : 'text-gray-700 hover:text-irctc-orange hover:bg-orange-50'}`}>
+            <Link to="/restaurants" className={`px-3 py-2 rounded-md transition-colors ${isActiveLink('/restaurants') ? 'text-irctc-orange font-medium gold-border' : 'text-gray-700 hover:text-irctc-orange hover:bg-orange-50'}`}>
               Restaurants
             </Link>
-            <Link to="/track-order" className={`px-3 py-2 rounded-md transition-colors ${isActiveLink('/track-order') ? 'text-irctc-orange font-medium' : 'text-gray-700 hover:text-irctc-orange hover:bg-orange-50'}`}>
+            <Link to="/track-order" className={`px-3 py-2 rounded-md transition-colors ${isActiveLink('/track-order') ? 'text-irctc-orange font-medium gold-border' : 'text-gray-700 hover:text-irctc-orange hover:bg-orange-50'}`}>
               Track Order
             </Link>
-            <Link to="/help" className={`px-3 py-2 rounded-md transition-colors ${isActiveLink('/help') ? 'text-irctc-orange font-medium' : 'text-gray-700 hover:text-irctc-orange hover:bg-orange-50'}`}>
+            <Link to="/help" className={`px-3 py-2 rounded-md transition-colors ${isActiveLink('/help') ? 'text-irctc-orange font-medium gold-border' : 'text-gray-700 hover:text-irctc-orange hover:bg-orange-50'}`}>
               Help
             </Link>
           </div>
@@ -78,7 +84,7 @@ const Navbar = () => {
               <Input 
                 type="text" 
                 placeholder="Search restaurants or food..." 
-                className="pl-10 pr-4 py-2 rounded-full w-64 border-gray-200 focus:border-irctc-orange focus:ring-irctc-orange/20"
+                className="premium-input pl-10 pr-4 py-2 rounded-full w-64 border-gray-200"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
@@ -96,7 +102,10 @@ const Navbar = () => {
 
             {isAuthenticated ? (
               <div className="flex items-center space-x-2">
-                <Link to={role === 'passenger' ? '/passenger' : '/vendor'} className="flex items-center space-x-2 px-3 py-2 rounded-md bg-orange-50 hover:bg-orange-100 transition-colors">
+                <Link 
+                  to={role === 'passenger' ? '/passenger' : '/vendor'} 
+                  className="flex items-center space-x-2 px-3 py-2 rounded-md bg-gradient-premium text-white hover:shadow-lg transition-all duration-300"
+                >
                   <User size={18} />
                   <span className="font-medium">{user?.name?.split(' ')[0] || 'Dashboard'}</span>
                 </Link>
@@ -106,7 +115,7 @@ const Navbar = () => {
                 <Button variant="ghost" className="hover:bg-orange-50 hover:text-irctc-orange" asChild>
                   <Link to="/login">Login</Link>
                 </Button>
-                <Button className="bg-irctc-orange hover:bg-irctc-orange/90 shadow-lg shadow-orange-200" asChild>
+                <Button className="bg-gradient-premium hover:shadow-lg shadow-orange-200 transition-all duration-300" asChild>
                   <Link to="/register">Sign Up</Link>
                 </Button>
               </div>
@@ -138,7 +147,7 @@ const Navbar = () => {
             <Input 
               type="text" 
               placeholder="Search restaurants or food..." 
-              className="pl-10 pr-4 py-2 rounded-full w-full border-gray-200"
+              className="premium-input pl-10 pr-4 py-2 rounded-full w-full border-gray-200"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
@@ -178,7 +187,7 @@ const Navbar = () => {
             {isAuthenticated ? (
               <Link 
                 to={role === 'passenger' ? '/passenger' : '/vendor'} 
-                className="flex items-center space-x-2 px-3 py-3 mt-2 bg-orange-50 rounded-md"
+                className="flex items-center space-x-2 px-3 py-3 mt-2 bg-gradient-premium text-white rounded-md"
                 onClick={() => setIsMenuOpen(false)}
               >
                 <User size={18} />
@@ -189,7 +198,7 @@ const Navbar = () => {
                 <Button variant="outline" className="flex-1" asChild>
                   <Link to="/login" onClick={() => setIsMenuOpen(false)}>Login</Link>
                 </Button>
-                <Button className="bg-irctc-orange hover:bg-irctc-orange/90 flex-1 shadow-md shadow-orange-200" asChild>
+                <Button className="bg-gradient-premium flex-1 shadow-md" asChild>
                   <Link to="/register" onClick={() => setIsMenuOpen(false)}>Sign Up</Link>
                 </Button>
               </div>
