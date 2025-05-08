@@ -17,6 +17,7 @@ import Cart from "./pages/Cart";
 import OrderSuccess from "./pages/OrderSuccess";
 import TrackOrder from "./pages/TrackOrder";
 import FeedbackForm from "./pages/FeedbackForm";
+import PremiumFeatures from "./pages/PremiumFeatures";
 
 // Passenger dashboard pages
 import PassengerDashboard from "./pages/passenger/Dashboard";
@@ -61,6 +62,7 @@ const App = () => (
                 <Route path="/cart" element={<Cart />} />
                 <Route path="/track-order" element={<TrackOrder />} />
                 <Route path="/feedback" element={<FeedbackForm />} />
+                <Route path="/premium" element={<PremiumFeatures />} />
 
                 {/* Protected Routes - Authentication required at checkout */}
                 <Route path="/order-success" element={
