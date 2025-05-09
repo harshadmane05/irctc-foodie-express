@@ -25,32 +25,30 @@ const MenuItemList: React.FC<MenuItemListProps> = ({
   handleDeleteItem,
   getFallbackImage
 }) => {
+  // Handle image loading errors
+  const handleImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>, itemName: string) => {
+    const target = e.target as HTMLImageElement;
+    target.onerror = null; // Prevent infinite error loops
+    target.src = getFallbackImage(itemName);
+  };
+
   return (
-    <div className="bg-white p-6 rounded-lg shadow-md">
+    <div className="bg-white p-6 rounded-lg shadow-md premium-glass">
       <h2 className="text-lg font-semibold mb-4">Current Menu Items</h2>
       {menuItems.length > 0 ? (
         <div className="divide-y divide-gray-200">
           {menuItems.map((item) => (
-            <div key={item.id} className="py-4">
+            <div key={item.id} className="py-4 premium-effect hover:bg-gray-50/50 p-2 rounded">
               <div className="flex justify-between items-start">
                 <div className="flex gap-4">
-                  <div className="w-16 h-16 rounded overflow-hidden bg-gray-100 flex-shrink-0">
-                    {item.image ? (
-                      <img 
-                        src={item.image} 
-                        alt={item.name} 
-                        className="w-full h-full object-cover"
-                        onError={(e) => {
-                          const target = e.target as HTMLImageElement;
-                          target.onerror = null;
-                          target.src = getFallbackImage(item.name);
-                        }}
-                      />
-                    ) : (
-                      <div className="w-full h-full flex items-center justify-center bg-gray-100">
-                        <ImageIcon className="text-gray-400" />
-                      </div>
-                    )}
+                  <div className="w-16 h-16 rounded overflow-hidden bg-gray-100 flex-shrink-0 premium-image">
+                    <img 
+                      src={item.image || getFallbackImage(item.name)} 
+                      alt={item.name} 
+                      className="w-full h-full object-cover"
+                      onError={(e) => handleImageError(e, item.name)}
+                      loading="lazy"
+                    />
                   </div>
                   <div>
                     <h3 className="font-medium">{item.name}</h3>
@@ -68,6 +66,8 @@ const MenuItemList: React.FC<MenuItemListProps> = ({
                     variant="outline" 
                     size="icon" 
                     onClick={() => handleEditClick(item)}
+                    className="hover:bg-blue-50 transition-colors"
+                    aria-label="Edit item"
                   >
                     <Pencil size={16} />
                   </Button>
@@ -75,7 +75,8 @@ const MenuItemList: React.FC<MenuItemListProps> = ({
                     variant="outline" 
                     size="icon" 
                     onClick={() => handleDeleteItem(item.id, item.name)}
-                    className="text-red-500 hover:text-red-600"
+                    className="text-red-500 hover:text-red-600 hover:bg-red-50 transition-colors"
+                    aria-label="Delete item"
                   >
                     <Trash2 size={16} />
                   </Button>

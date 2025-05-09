@@ -22,6 +22,10 @@ export const getFallbackImage = (name: string) => {
     return 'https://images.unsplash.com/photo-1510130387422-82bed34b37e9?w=800&auto=format&fit=crop&q=90';
   } else if (nameLower.includes('drink') || nameLower.includes('beverage')) {
     return 'https://images.unsplash.com/photo-1595981267035-7b04ca84a82d?w=800&auto=format&fit=crop&q=90';
+  } else if (nameLower.includes('cafe')) {
+    return 'https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=800&auto=format&fit=crop&q=90';
+  } else if (nameLower.includes('special')) {
+    return 'https://images.unsplash.com/photo-1606491956689-2ea866880c84?w=800&auto=format&fit=crop&q=90';
   }
   
   // Higher quality default fallback

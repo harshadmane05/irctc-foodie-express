@@ -23,6 +23,16 @@ const RestaurantActions: React.FC<RestaurantActionsProps> = ({ restaurant }) => 
   const handleContactSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
+    // Form validation
+    if (!name.trim() || !phone.trim() || !message.trim()) {
+      toast({
+        title: "Form incomplete",
+        description: "Please fill out all fields",
+        variant: "destructive"
+      });
+      return;
+    }
+    
     // In a real app, you would send this data to a backend API
     console.log('Contact message sent:', { name, phone, message, restaurant: restaurant.name });
     
@@ -38,22 +48,30 @@ const RestaurantActions: React.FC<RestaurantActionsProps> = ({ restaurant }) => 
   };
 
   const openMapsInNewTab = () => {
-    // Default to restaurant's address if no coordinates are provided
-    if (!restaurant.location) {
-      const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(restaurant.address)}`;
-      window.open(googleMapsUrl, '_blank');
-    } else {
-      const { lat, lng } = restaurant.location;
-      const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${lat},${lng}`;
-      window.open(googleMapsUrl, '_blank');
+    try {
+      // Default to restaurant's address if no coordinates are provided
+      if (!restaurant.location) {
+        const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(restaurant.address)}`;
+        window.open(googleMapsUrl, '_blank', 'noopener,noreferrer');
+      } else {
+        const { lat, lng } = restaurant.location;
+        const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${lat},${lng}`;
+        window.open(googleMapsUrl, '_blank', 'noopener,noreferrer');
+      }
+      
+      setDirectionsDialogOpen(false);
+      
+      toast({
+        title: "Directions opened",
+        description: "Google Maps has been opened in a new tab with directions to the restaurant.",
+      });
+    } catch (error) {
+      toast({
+        title: "Could not open maps",
+        description: "There was an error opening Google Maps. Please try again.",
+        variant: "destructive"
+      });
     }
-    
-    setDirectionsDialogOpen(false);
-    
-    toast({
-      title: "Directions opened",
-      description: "Google Maps has been opened in a new tab with directions to the restaurant.",
-    });
   };
 
   return (
@@ -61,7 +79,7 @@ const RestaurantActions: React.FC<RestaurantActionsProps> = ({ restaurant }) => 
       <div className="flex space-x-2">
         <Button 
           variant="outline" 
-          className="flex-1" 
+          className="flex-1 hover:bg-gray-50 transition-colors" 
           onClick={() => setContactDialogOpen(true)}
         >
           <Phone className="mr-2 h-4 w-4" />
@@ -70,7 +88,7 @@ const RestaurantActions: React.FC<RestaurantActionsProps> = ({ restaurant }) => 
         
         <Button 
           variant="outline" 
-          className="flex-1"
+          className="flex-1 hover:bg-gray-50 transition-colors"
           onClick={() => setDirectionsDialogOpen(true)}
         >
           <MapPin className="mr-2 h-4 w-4" />
@@ -80,7 +98,7 @@ const RestaurantActions: React.FC<RestaurantActionsProps> = ({ restaurant }) => 
       
       {/* Contact Dialog */}
       <Dialog open={contactDialogOpen} onOpenChange={setContactDialogOpen}>
-        <DialogContent>
+        <DialogContent className="premium-glass">
           <DialogHeader>
             <DialogTitle>Contact {restaurant.name}</DialogTitle>
             <DialogDescription>
@@ -97,6 +115,7 @@ const RestaurantActions: React.FC<RestaurantActionsProps> = ({ restaurant }) => 
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   required
+                  className="focus:border-amber-300"
                 />
               </div>
               
@@ -107,6 +126,10 @@ const RestaurantActions: React.FC<RestaurantActionsProps> = ({ restaurant }) => 
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
                   required
+                  className="focus:border-amber-300"
+                  type="tel"
+                  pattern="[0-9]{10}"
+                  title="Please enter a valid 10-digit phone number"
                 />
               </div>
               
@@ -118,6 +141,7 @@ const RestaurantActions: React.FC<RestaurantActionsProps> = ({ restaurant }) => 
                   onChange={(e) => setMessage(e.target.value)}
                   rows={4}
                   required
+                  className="focus:border-amber-300"
                 />
               </div>
               
@@ -133,7 +157,7 @@ const RestaurantActions: React.FC<RestaurantActionsProps> = ({ restaurant }) => 
               <DialogClose asChild>
                 <Button variant="outline">Cancel</Button>
               </DialogClose>
-              <Button type="submit">Send Message</Button>
+              <Button type="submit" className="bg-irctc-orange hover:bg-irctc-orange/90">Send Message</Button>
             </DialogFooter>
           </form>
         </DialogContent>
@@ -141,7 +165,7 @@ const RestaurantActions: React.FC<RestaurantActionsProps> = ({ restaurant }) => 
       
       {/* Directions Dialog */}
       <Dialog open={directionsDialogOpen} onOpenChange={setDirectionsDialogOpen}>
-        <DialogContent>
+        <DialogContent className="premium-glass">
           <DialogHeader>
             <DialogTitle>Get Directions to {restaurant.name}</DialogTitle>
             <DialogDescription>
@@ -155,7 +179,7 @@ const RestaurantActions: React.FC<RestaurantActionsProps> = ({ restaurant }) => 
               <p className="text-gray-700">{restaurant.address}</p>
             </div>
             
-            <div className="bg-gray-200 h-48 rounded-md flex items-center justify-center mb-4">
+            <div className="bg-gray-200 h-48 rounded-md flex items-center justify-center mb-4 premium-image">
               <MapPin className="h-8 w-8 text-gray-500" />
               <span className="ml-2 text-gray-600">Map Preview</span>
             </div>
@@ -169,7 +193,7 @@ const RestaurantActions: React.FC<RestaurantActionsProps> = ({ restaurant }) => 
             <DialogClose asChild>
               <Button variant="outline">Cancel</Button>
             </DialogClose>
-            <Button onClick={openMapsInNewTab}>
+            <Button onClick={openMapsInNewTab} className="bg-irctc-orange hover:bg-irctc-orange/90">
               <MapPin className="mr-2 h-4 w-4" />
               Open in Google Maps
             </Button>

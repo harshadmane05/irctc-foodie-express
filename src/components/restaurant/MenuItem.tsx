@@ -3,7 +3,7 @@ import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Plus, Minus, Info, AlertTriangle, ImageIcon } from 'lucide-react';
+import { Plus, Minus, Info, AlertTriangle } from 'lucide-react';
 import { MenuItem as MenuItemType } from '@/types/restaurant';
 import { getFallbackImage } from '@/utils/imageUtils';
 import {
@@ -47,8 +47,15 @@ const MenuItem: React.FC<MenuItemProps> = ({ item, quantity, onAdd, onRemove }) 
     );
   };
 
+  // Handle image loading errors
+  const handleImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
+    const target = e.target as HTMLImageElement;
+    target.onerror = null; // Prevent infinite error loops
+    target.src = getFallbackImage(item.name);
+  };
+
   return (
-    <Card key={item.id} className="overflow-hidden hover:shadow-md transition-all duration-300">
+    <Card key={item.id} className="overflow-hidden hover:shadow-md transition-all duration-300 premium-effect">
       <CardContent className="p-0">
         <div className="flex flex-col md:flex-row">
           <div className="p-4 flex-1">
@@ -111,14 +118,18 @@ const MenuItem: React.FC<MenuItemProps> = ({ item, quantity, onAdd, onRemove }) 
                     size="icon" 
                     variant="outline" 
                     onClick={() => onRemove(item.id)}
+                    aria-label="Decrease quantity"
+                    className="hover:bg-red-50"
                   >
                     <Minus className="h-4 w-4" />
                   </Button>
-                  <span className="mx-3 w-6 text-center">{quantity}</span>
+                  <span className="mx-3 w-6 text-center font-medium">{quantity}</span>
                   <Button 
                     size="icon" 
                     variant="outline" 
                     onClick={() => onAdd(item)}
+                    aria-label="Increase quantity"
+                    className="hover:bg-green-50"
                   >
                     <Plus className="h-4 w-4" />
                   </Button>
@@ -126,7 +137,7 @@ const MenuItem: React.FC<MenuItemProps> = ({ item, quantity, onAdd, onRemove }) 
               ) : (
                 <Button 
                   onClick={() => onAdd(item)}
-                  className="bg-irctc-orange hover:bg-irctc-orange/90"
+                  className="bg-irctc-orange hover:bg-irctc-orange/90 shadow-sm hover:shadow-md transition-all duration-200"
                 >
                   Add to cart
                 </Button>
@@ -134,35 +145,15 @@ const MenuItem: React.FC<MenuItemProps> = ({ item, quantity, onAdd, onRemove }) 
             </div>
           </div>
           
-          {item.image && (
-            <div className="w-full md:w-1/3 h-32 md:h-auto relative">
-              <img 
-                src={item.image} 
-                alt={item.name} 
-                className="w-full h-full object-cover"
-                onError={(e) => {
-                  const target = e.target as HTMLImageElement;
-                  target.onerror = null;
-                  target.src = getFallbackImage(item.name);
-                }}
-              />
-            </div>
-          )}
-          
-          {!item.image && (
-            <div className="w-full md:w-1/3 h-32 md:h-auto relative bg-gray-100 flex items-center justify-center">
-              <img 
-                src={getFallbackImage(item.name)} 
-                alt={item.name} 
-                className="w-full h-full object-cover"
-                onError={(e) => {
-                  const target = e.target as HTMLImageElement;
-                  target.onerror = null;
-                  target.src = 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800&auto=format&fit=crop';
-                }}
-              />
-            </div>
-          )}
+          <div className="w-full md:w-1/3 h-32 md:h-auto relative">
+            <img 
+              src={item.image || getFallbackImage(item.name)}
+              alt={item.name} 
+              className="w-full h-full object-cover premium-image"
+              onError={handleImageError}
+              loading="lazy"
+            />
+          </div>
         </div>
       </CardContent>
     </Card>
