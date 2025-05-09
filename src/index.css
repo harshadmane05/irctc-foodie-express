@@ -1,4 +1,3 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -140,6 +139,22 @@
     @apply relative overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-white/20 before:to-transparent before:animate-shimmer;
   }
   
+  @keyframes shimmer-premium {
+    0% {
+      transform: translateX(-100%);
+    }
+    70% {
+      transform: translateX(100%);
+    }
+    100% {
+      transform: translateX(100%);
+    }
+  }
+  
+  .animate-shimmer-premium {
+    animation: shimmer-premium 3s ease-in-out infinite;
+  }
+  
   /* Custom scrollbar */
   .scrollbar-thin {
     scrollbar-width: thin;
@@ -156,5 +171,10 @@
   
   .scrollbar-thin::-webkit-scrollbar-thumb {
     @apply bg-gray-300 hover:bg-gray-400 rounded-full;
+  }
+  
+  /* Premium filter styles */
+  .premium-filter-active {
+    @apply bg-amber-100 text-amber-800 border-amber-300;
   }
 }
