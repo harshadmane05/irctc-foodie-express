@@ -41,6 +41,19 @@ body {
   animation: float 3s ease-in-out infinite;
 }
 
+@keyframes pulse-slow {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.85;
+  }
+}
+
+.animate-pulse-slow {
+  animation: pulse-slow 2s ease-in-out infinite;
+}
+
 /* Gold border effect */
 .gold-border {
   position: relative;
@@ -91,4 +104,33 @@ button:focus, a:focus, input:focus, select:focus, textarea:focus {
   left: 0;
   color: #E16F25;
   font-weight: bold;
+}
+
+/* Premium glass card */
+.premium-glass {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+/* Premium image styling */
+.premium-image {
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.premium-image:hover {
+  transform: scale(1.02);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+/* Premium text gradient */
+.premium-text-gradient {
+  background: linear-gradient(90deg, #E16F25, #D4AF37);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  display: inline-block;
 }
