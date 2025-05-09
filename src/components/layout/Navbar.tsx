@@ -1,11 +1,14 @@
+
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Utensils, ShoppingCart, User, Menu, Shield } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
+import { usePremium } from '@/context/PremiumContext';
 import PremiumBadge from '@/components/premium/PremiumBadge';
 
 const Navbar = () => {
   const { isAuthenticated, user } = useAuth();
+  const { isPremium } = usePremium();
   const location = useLocation();
 
   const isActive = (path: string) => {
@@ -72,8 +75,8 @@ const Navbar = () => {
               <Link to="/cart" className="text-gray-600 hover:text-irctc-orange transition-colors">
                 <ShoppingCart className="h-5 w-5" />
               </Link>
-              {/* Premium Badge */}
-              {user && <PremiumBadge className="hidden md:block" />}
+              {/* Premium Badge - Now using the context */}
+              {isPremium && <PremiumBadge className="hidden md:flex" />}
             </>
           ) : (
             <>

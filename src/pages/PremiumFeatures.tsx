@@ -1,7 +1,9 @@
-import React, { useState, useEffect } from 'react';
+
+import React, { useState } from 'react';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import { useAuth } from '@/context/AuthContext';
+import { usePremium } from '@/context/PremiumContext';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
@@ -14,6 +16,7 @@ import PremiumBadge from '@/components/premium/PremiumBadge';
 
 const PremiumFeatures = () => {
   const { isAuthenticated, user } = useAuth();
+  const { isPremium, premiumPlan, activatePremium } = usePremium();
   const navigate = useNavigate();
   const { toast } = useToast();
   const [selectedPlan, setSelectedPlan] = useState<'monthly' | 'yearly'>('monthly');
@@ -22,15 +25,6 @@ const PremiumFeatures = () => {
   const [paymentMethod, setPaymentMethod] = useState<'upi' | 'card'>('upi');
   const [upiId, setUpiId] = useState('');
   const [successDialogOpen, setSuccessDialogOpen] = useState(false);
-  const [isPremiumUser, setIsPremiumUser] = useState(false);
-  
-  useEffect(() => {
-    // Check if user has premium from localStorage
-    const premiumStatus = localStorage.getItem('premiumUser');
-    if (premiumStatus === 'true') {
-      setIsPremiumUser(true);
-    }
-  }, []);
   
   const plans = {
     monthly: {
@@ -86,19 +80,18 @@ const PremiumFeatures = () => {
     
     setProcessingPayment(true);
     
-    // Mock payment process
+    // Mock payment process with a simple delay
     setTimeout(() => {
       setProcessingPayment(false);
       setPaymentDialogOpen(false);
       setSuccessDialogOpen(true);
       
-      // Save premium status to localStorage
-      localStorage.setItem('premiumUser', 'true');
-      setIsPremiumUser(true);
-    }, 2000);
+      // Activate premium using our context
+      activatePremium(selectedPlan);
+    }, 1500);
   };
   
-  if (isPremiumUser) {
+  if (isPremium) {
     return (
       <div className="min-h-screen flex flex-col">
         <Navbar />
@@ -121,7 +114,10 @@ const PremiumFeatures = () => {
               <div className="bg-white p-8 rounded-xl shadow-xl max-w-2xl mx-auto">
                 <div className="flex items-center gap-3 mb-6">
                   <CheckCircle className="h-8 w-8 text-green-500" />
-                  <h2 className="text-2xl font-bold text-gray-800">Active Premium Membership</h2>
+                  <h2 className="text-2xl font-bold text-gray-800">
+                    Active Premium Membership
+                    {premiumPlan && <span className="text-amber-500 ml-2">({premiumPlan} plan)</span>}
+                  </h2>
                 </div>
                 
                 <ul className="space-y-4 mb-8">
@@ -137,14 +133,18 @@ const PremiumFeatures = () => {
                     <BadgeCheck className="h-5 w-5 text-amber-500" />
                     <span>Premium Support</span>
                   </li>
-                  <li className="flex items-center gap-2">
-                    <BadgeCheck className="h-5 w-5 text-amber-500" />
-                    <span>Exclusive Discounts</span>
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <BadgeCheck className="h-5 w-5 text-amber-500" />
-                    <span>Free Delivery on All Orders</span>
-                  </li>
+                  {premiumPlan === 'yearly' && (
+                    <>
+                      <li className="flex items-center gap-2">
+                        <BadgeCheck className="h-5 w-5 text-amber-500" />
+                        <span>Free Delivery on All Orders</span>
+                      </li>
+                      <li className="flex items-center gap-2">
+                        <BadgeCheck className="h-5 w-5 text-amber-500" />
+                        <span>Exclusive Discounts</span>
+                      </li>
+                    </>
+                  )}
                 </ul>
                 
                 <p className="text-amber-700 font-medium border-t pt-4">
@@ -195,7 +195,7 @@ const PremiumFeatures = () => {
           </div>
         </section>
         
-        {/* Premium Plan Selection - Enhanced */}
+        {/* Premium Plan Selection */}
         <section className="py-16 px-4 bg-gradient-to-b from-gray-50 to-white">
           <div className="max-w-4xl mx-auto">
             <div className="text-center mb-12">
@@ -316,7 +316,7 @@ const PremiumFeatures = () => {
           </div>
         </section>
         
-        {/* Premium Benefits - Updated */}
+        {/* Premium Benefits */}
         <section className="py-16 px-4 bg-gradient-to-b from-white to-amber-50">
           <div className="max-w-6xl mx-auto">
             <div className="text-center mb-12">
@@ -420,7 +420,7 @@ const PremiumFeatures = () => {
           </div>
         </section>
         
-        {/* Testimonials Section - Updated */}
+        {/* Testimonials Section */}
         <section className="py-16 px-4 bg-gradient-to-b from-amber-50 to-white">
           <div className="max-w-6xl mx-auto">
             <div className="text-center mb-12">
@@ -474,7 +474,7 @@ const PremiumFeatures = () => {
           </div>
         </section>
         
-        {/* FAQ Section - keep existing code */}
+        {/* FAQ Section */}
         <section className="py-16 px-4">
           <div className="max-w-4xl mx-auto">
             <div className="text-center mb-12">
@@ -506,7 +506,7 @@ const PremiumFeatures = () => {
           </div>
         </section>
         
-        {/* CTA Section - Updated */}
+        {/* CTA Section */}
         <section className="py-12 px-4 bg-gradient-to-r from-amber-500 to-orange-400 text-white text-center">
           <div className="max-w-3xl mx-auto">
             <h2 className="text-3xl font-bold mb-4">Ready to Elevate Your Journey?</h2>
@@ -563,7 +563,7 @@ const PremiumFeatures = () => {
                   value={upiId}
                   onChange={(e) => setUpiId(e.target.value)}
                   placeholder="yourname@upi"
-                  className="w-full p-2 border rounded"
+                  className="w-full p-2 border rounded focus:ring-2 focus:ring-amber-500"
                 />
               </div>
             )}
@@ -578,7 +578,7 @@ const PremiumFeatures = () => {
                     id="card-number"
                     type="text"
                     placeholder="1234 5678 9012 3456"
-                    className="w-full p-2 border rounded"
+                    className="w-full p-2 border rounded focus:ring-2 focus:ring-amber-500"
                   />
                 </div>
                 <div className="grid grid-cols-2 gap-4">
@@ -590,7 +590,7 @@ const PremiumFeatures = () => {
                       id="expire-date"
                       type="text"
                       placeholder="MM/YY"
-                      className="w-full p-2 border rounded"
+                      className="w-full p-2 border rounded focus:ring-2 focus:ring-amber-500"
                     />
                   </div>
                   <div className="space-y-2">
@@ -601,7 +601,7 @@ const PremiumFeatures = () => {
                       id="cvv"
                       type="text"
                       placeholder="123"
-                      className="w-full p-2 border rounded"
+                      className="w-full p-2 border rounded focus:ring-2 focus:ring-amber-500"
                     />
                   </div>
                 </div>

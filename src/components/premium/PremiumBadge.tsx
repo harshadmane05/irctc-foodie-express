@@ -17,7 +17,7 @@ const PremiumBadge = ({ className, size = 'md' }: PremiumBadgeProps) => {
   
   return (
     <div className={cn(
-      'bg-gradient-to-r from-amber-300 via-amber-400 to-amber-500 text-black rounded-full font-medium flex items-center gap-1.5 shadow-lg border border-amber-200 animate-pulse-slow',
+      'bg-gradient-to-r from-amber-300 via-amber-400 to-amber-500 text-black rounded-full font-medium flex items-center gap-1.5 shadow-lg border border-amber-200',
       sizeClasses[size],
       className
     )}>
